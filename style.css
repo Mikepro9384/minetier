@@ -760,3 +760,14 @@ body {
     flex-direction: column;
   }
 }
+
+.combat-title {
+  margin-left: 8px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(59,130,246,0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59,130,246,0.35);
+}
