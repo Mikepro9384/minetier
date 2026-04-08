@@ -61,8 +61,8 @@ const allData = {
 
   Mace: [
     { name: "Marvelz_", tier: "HT1", discordId: "933630129748455497" },
-    { name: "GwayPyanGy", tier: "LT1", discordId: "1383852361914515557" },
-    { name: "DRFOXCraft", tier: "HT2", discordId: "1392351363660382261" },
+    { name: "DRFOXCraft", tier: "LT1", discordId: "1392351363660382261" },
+    { name: "GwayPyanGy", tier: "HT2", discordId: "1383852361914515557" },
     { name: "GorgeTheGuild", tier: "LT2", discordId: "1342477391983909583" },
     { name: "Mikepool", tier: "HT3", discordId: "1301054267188318218" },
     { name: "slow", tier: "LT3", discordId: "1205524857551462450" },
