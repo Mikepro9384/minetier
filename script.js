@@ -15,7 +15,8 @@ const allData = {
     { name: "BaBaGyi", pts: 7 },
     { name: "xyztheplayer", pts: 6 },
     { name: "zen1vs1", pts: 5 },
-    { name: "coffee", pts: 4 }
+    { name: "coffee", pts: 4 },
+    { name: "Rinleaf", pts: 0 }
   ],
 
   Sword: [
@@ -29,7 +30,8 @@ const allData = {
     { name: "vemoshake", tier: "HT4" },
     { name: "MgLay", tier: "LT4" },
     { name: "slow", tier: "HT5" },
-    { name: "ryan", tier: "LT5" }
+    { name: "ryan", tier: "LT5" },
+    { name: "Rinleaf", tier: "-" }
   ],
 
   Axe: [
@@ -44,6 +46,7 @@ const allData = {
     { name: "babagyi", tier: "HT5" },
     { name: "ryan", tier: "LT5" },
     { name: "DRFOXCraft", tier: "-"},
+    { name: "Rinleaf", tier: "-" }
   ],
 
   Mace: [
@@ -57,7 +60,8 @@ const allData = {
     { name: "vemoshake", tier: "LT4" },
     { name: "OliSteph", tier: "HT5" },
     { name: "babagyi", tier: "LT5" },
-    { name: "Mglay", tier: "HT5" }
+    { name: "Mglay", tier: "HT5" },
+    { name: "Rinleaf", tier: "-" }
   ],
 
   "Diamond SMP": [
@@ -71,7 +75,8 @@ const allData = {
     { name: "naomigrief", tier: "LT4" },
     { name: "ryan", tier: "HT5" },
     { name: "babayi", tier: "LT5" },
-    { name: "slow", tier: "HT5" }
+    { name: "slow", tier: "HT5" },
+    { name: "Rinleaf", tier: "-" }
   ],
 
   "Neth Pot": [
@@ -85,7 +90,8 @@ const allData = {
     { name: "naomigrief", tier: "HT4" },
     { name: "Mglay", tier: "LT4" },
     { name: "babagyi", tier: "HT5" },
-    { name: "ryan", tier: "LT5" }
+    { name: "ryan", tier: "LT5" },
+    { name: "Rinleaf", tier: "-" }
   ],
 
   Crystal: [
@@ -99,7 +105,8 @@ const allData = {
     { name: "MgLay", tier: "LT4" },
     { name: "ryan", tier: "HT5" },
     { name: "vemoshake", tier: "LT5" },
-    { name: "slow", tier: "HT5" }
+    { name: "slow", tier: "HT5" },
+    { name: "Rinleaf", tier: "-" }
   ]
 };
 
