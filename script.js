@@ -1,114 +1,126 @@
+function playClickSound() {
+  const sound = document.getElementById("clickSound");
+
+  if (!sound) return;
+
+  sound.currentTime = 0;
+
+  sound.play();
+}
+
 const allData = {
   Overall: [
-    { name: "DRFOXCraft", pts: 20},
-    { name: "Marvelz_", pts: 19 },
-    { name: "GwayPyanGy", pts: 18 },
-    { name: "GorgeTheGuild", pts: 17 },
-    { name: "OliSteph", pts: 16 },
-    { name: "MikeTheClover", pts: 15 },
-    { name: "vemoshake", pts: 14 },
-    { name: "naomigrief", pts: 13 },
-    { name: "Mtskillissue", pts: 12 },
-    { name: "Mikepool", pts: 10 },
-    { name: "MashTheSigma", pts: 9 },
-    { name: "SlideTheBird", pts: 8 },
-    { name: "BaBaGyi", pts: 7 },
-    { name: "xyztheplayer", pts: 6 },
-    { name: "zen1vs1", pts: 5 },
-    { name: "coffee", pts: 4 },
-    { name: "Rinleaf", pts: 0 }
+    { name: "DRFOXCraft", pts: 20, discordId: "1392351363660382261" },
+    { name: "Marvelz_", pts: 19, discordId: "933630129748455497" },
+    { name: "GwayPyanGy", pts: 18, discordId: "1383852361914515557" },
+    { name: "GorgeTheGuild", pts: 17, discordId: "1342477391983909583" },
+    { name: "OliSteph", pts: 16, discordId: "993532803520139296" },
+    { name: "MikeTheClover", pts: 15, discordId: "1380756143374209036" },
+    { name: "vemoshake", pts: 14, discordId: "943480370530234388" },
+    { name: "naomigrief", pts: 13, discordId: "1373600661945712691" },
+    { name: "Mtskillissue", pts: 12, discordId: "1345005258950184990" },
+    { name: "Mikepool", pts: 10, discordId: "1301054267188318218" },
+    { name: "MashTheSigma", pts: 9, discordId: "" },
+    { name: "SlideTheBird", pts: 8, discordId: "" },
+    { name: "BaBaGyi", pts: 7, discordId: "14751872120161583" },
+    { name: "xyztheplayer", pts: 6, discordId: "" },
+    { name: "zen1vs1", pts: 5, discordId: "" },
+    { name: "coffee", pts: 4, discordId: "" },
+    { name: "Rinleaf", pts: 0, discordId: "1205524857551462450" }
   ],
 
   Sword: [
-    { name: "DRFOXCraft", tier: "HT1"},
-    { name: "Marvelz_", tier: "LT1" },
-    { name: "GwayPyanGy", tier: "HT2" },
-    { name: "naomigrief", tier: "LT2" },
-    { name: "GorgeTheGuild", tier: "HT3" },
-    { name: "MikeTheClover", tier: "LT3" },
-    { name: "Olisteph", tier: "HT3" },
-    { name: "vemoshake", tier: "HT4" },
-    { name: "MgLay", tier: "LT4" },
-    { name: "slow", tier: "HT5" },
-    { name: "ryan", tier: "LT5" },
-    { name: "Rinleaf", tier: "-" }
+    { name: "DRFOXCraft", tier: "HT1", discordId: "1392351363660382261" },
+    { name: "Marvelz_", tier: "LT1", discordId: "933630129748455497" },
+    { name: "GwayPyanGy", tier: "HT2", discordId: "1383852361914515557" },
+    { name: "naomigrief", tier: "LT2", discordId: "1373600661945712691" },
+    { name: "GorgeTheGuild", tier: "HT3", discordId: "1342477391983909583" },
+    { name: "MikeTheClover", tier: "LT3", discordId: "1380756143374209036" },
+    { name: "Olisteph", tier: "HT3", discordId: "993532803520139296" },
+    { name: "vemoshake", tier: "HT4", discordId: "943480370530234388" },
+    { name: "Mtskillissue", tier: "LT4", discordId: "1345005258950184990" },
+    { name: "slow", tier: "HT5", discordId: "1205524857551462450" },
+    { name: "Mikepool", tier: "LT5", discordId: "1301054267188318218" },
+    { name: "Rinleaf", tier: "-", discordId: "1205524857551462450" }
   ],
 
   Axe: [
-    { name: "Marvelz_", tier: "LT1" },
-    { name: "GwayPyanGy", tier: "HT2" },
-    { name: "GorgeTheGuild", tier: "LT2" },
-    { name: "vemoshake", tier: "HT3" },
-    { name: "MikeTheClover", tier: "LT3" },
-    { name: "Olisteph", tier: "HT3" },
-    { name: "naomigrief", tier: "HT4" },
-    { name: "Mglay", tier: "LT4" },
-    { name: "babagyi", tier: "HT5" },
-    { name: "ryan", tier: "LT5" },
-    { name: "DRFOXCraft", tier: "-"},
-    { name: "Rinleaf", tier: "-" }
+    { name: "Marvelz_", tier: "LT1", discordId: "933630129748455497" },
+    { name: "GwayPyanGy", tier: "HT2", discordId: "1383852361914515557" },
+    { name: "GorgeTheGuild", tier: "LT2", discordId: "1342477391983909583" },
+    { name: "vemoshake", tier: "HT3", discordId: "943480370530234388" },
+    { name: "MikeTheClover", tier: "LT3", discordId: "1380756143374209036" },
+    { name: "Olisteph", tier: "HT3", discordId: "993532803520139296" },
+    { name: "naomigrief", tier: "HT4", discordId: "1373600661945712691" },
+    { name: "Mtskillissue", tier: "LT4", discordId: "1345005258950184990" },
+    { name: "babagyi", tier: "HT5", discordId: "14751872120161583" },
+    { name: "Mikepool", tier: "LT5", discordId: "1301054267188318218" },
+    { name: "DRFOXCraft", tier: "-", discordId: "1392351363660382261" },
+    { name: "Rinleaf", tier: "-", discordId: "1205524857551462450" }
   ],
 
   Mace: [
-    { name: "Marvelz_", tier: "HT1" },
-    { name: "GwayPyanGy", tier: "LT1" },
-    { name: "DRFOXCraft", tier: "HT2"},
-    { name: "GorgeTheGuild", tier: "LT2" },
-    { name: "ryan", tier: "HT3" },
-    { name: "slow", tier: "LT3" },
-    { name: "MiketheClover", tier: "HT4" },
-    { name: "vemoshake", tier: "LT4" },
-    { name: "OliSteph", tier: "HT5" },
-    { name: "babagyi", tier: "LT5" },
-    { name: "Mglay", tier: "HT5" },
-    { name: "Rinleaf", tier: "-" }
+    { name: "Marvelz_", tier: "HT1", discordId: "933630129748455497" },
+    { name: "GwayPyanGy", tier: "LT1", discordId: "1383852361914515557" },
+    { name: "DRFOXCraft", tier: "HT2", discordId: "1392351363660382261" },
+    { name: "GorgeTheGuild", tier: "LT2", discordId: "1342477391983909583" },
+    { name: "Mikepool", tier: "HT3", discordId: "1301054267188318218" },
+    { name: "slow", tier: "LT3", discordId: "1205524857551462450" },
+    { name: "MikeTheClover", tier: "HT4", discordId: "1380756143374209036" },
+    { name: "vemoshake", tier: "LT4", discordId: "943480370530234388" },
+    { name: "OliSteph", tier: "HT5", discordId: "993532803520139296" },
+    { name: "babagyi", tier: "LT5", discordId: "14751872120161583" },
+    { name: "Mtskillissue", tier: "HT5", discordId: "1345005258950184990" },
+    { name: "Rinleaf", tier: "-", discordId: "1205524857551462450" }
   ],
 
   "Diamond SMP": [
-    { name: "DRFOXCraft", tier: "HT1"},
-    { name: "Marvelz_", tier: "LT1" },
-    { name: "GwayPyanGy", tier: "HT2" },
-    { name: "GorgeTheGuild", tier: "LT2" },
-    { name: "MikeTheClover", tier: "HT3" },
-    { name: "vemoshake", tier: "LT3" },
-    { name: "Olisteph", tier: "HT4" },
-    { name: "naomigrief", tier: "LT4" },
-    { name: "ryan", tier: "HT5" },
-    { name: "babayi", tier: "LT5" },
-    { name: "slow", tier: "HT5" },
-    { name: "Rinleaf", tier: "-" }
+    { name: "DRFOXCraft", tier: "HT1", discordId: "1392351363660382261" },
+    { name: "Marvelz_", tier: "LT1", discordId: "933630129748455497" },
+    { name: "GwayPyanGy", tier: "HT2", discordId: "1383852361914515557" },
+    { name: "GorgeTheGuild", tier: "LT2", discordId: "1342477391983909583" },
+    { name: "MikeTheClover", tier: "HT3", discordId: "1380756143374209036" },
+    { name: "vemoshake", tier: "LT3", discordId: "943480370530234388" },
+    { name: "Olisteph", tier: "HT4", discordId: "993532803520139296" },
+    { name: "naomigrief", tier: "LT4", discordId: "1373600661945712691" },
+    { name: "Mikepool", tier: "HT5", discordId: "1301054267188318218" },
+    { name: "babayi", tier: "LT5", discordId: "14751872120161583" },
+    { name: "Mtskillissue", tier: "HT5", discordId: "1345005258950184990" },
+    { name: "Rinleaf", tier: "-", discordId: "1205524857551462450" }
   ],
 
   "Neth Pot": [
-    { name: "Marvelz_", tier: "HT1" },
-    { name: "DRFOXCraft", tier: "LT1"},
-    { name: "GwayPyanGy", tier: "HT2" },
-    { name: "GorgeTheGuild", tier: "LT2" },
-    { name: "MikeTheClover", tier: "HT3" },
-    { name: "Olisteph", tier: "HT3" },
-    { name: "vemoshake", tier: "LT3" },
-    { name: "naomigrief", tier: "HT4" },
-    { name: "Mglay", tier: "LT4" },
-    { name: "babagyi", tier: "HT5" },
-    { name: "ryan", tier: "LT5" },
-    { name: "Rinleaf", tier: "-" }
+    { name: "Marvelz_", tier: "HT1", discordId: "933630129748455497" },
+    { name: "DRFOXCraft", tier: "LT1", discordId: "1392351363660382261" },
+    { name: "GwayPyanGy", tier: "HT2", discordId: "1383852361914515557" },
+    { name: "GorgeTheGuild", tier: "LT2", discordId: "1342477391983909583" },
+    { name: "MikeTheClover", tier: "HT3", discordId: "1380756143374209036" },
+    { name: "Olisteph", tier: "HT3", discordId: "993532803520139296" },
+    { name: "vemoshake", tier: "LT3", discordId: "943480370530234388" },
+    { name: "naomigrief", tier: "HT4", discordId: "1373600661945712691" },
+    { name: "Mtskillissue", tier: "LT4", discordId: "1345005258950184990" },
+    { name: "babagyi", tier: "HT5", discordId: "14751872120161583" },
+    { name: "Mikepool", tier: "LT5", discordId: "1301054267188318218" },
+    { name: "Rinleaf", tier: "-", discordId: "1205524857551462450" }
   ],
 
   Crystal: [
-    { name: "DRFOXCraft", tier: "HT1"},
-    { name: "GwayPyanGy", tier: "LT1" },
-    { name: "Marvelz_", tier: "HT2" },
-    { name: "naomigrief", tier: "LT2" },
-    { name: "GorgeTheGuild", tier: "HT3" },
-    { name: "MikeTheClover", tier: "LT3" },
-    { name: "OliSteph", tier: "HT4" },
-    { name: "MgLay", tier: "LT4" },
-    { name: "ryan", tier: "HT5" },
-    { name: "vemoshake", tier: "LT5" },
-    { name: "slow", tier: "HT5" },
-    { name: "Rinleaf", tier: "-" }
+    { name: "DRFOXCraft", tier: "HT1", discordId: "1392351363660382261" },
+    { name: "GwayPyanGy", tier: "LT1", discordId: "1383852361914515557" },
+    { name: "Marvelz_", tier: "HT2", discordId: "933630129748455497" },
+    { name: "naomigrief", tier: "LT2", discordId: "1373600661945712691" },
+    { name: "GorgeTheGuild", tier: "HT3", discordId: "1342477391983909583" },
+    { name: "MikeTheClover", tier: "LT3", discordId: "1380756143374209036" },
+    { name: "OliSteph", tier: "HT4", discordId: "993532803520139296" },
+    { name: "Mtskillissue", tier: "LT4", discordId: "1345005258950184990" },
+    { name: "Mikepool", tier: "HT5", discordId: "1301054267188318218" },
+    { name: "vemoshake", tier: "LT5", discordId: "943480370530234388" },
+    { name: "slow", tier: "HT5", discordId: "1205524857551462450" },
+    { name: "Rinleaf", tier: "-", discordId: "1205524857551462450" }
   ]
 };
+
+const defaultDiscordInvite = "https://discord.gg/4bQaeDNmj6";
 
 const modeTitle = document.getElementById("mode-title");
 const playerList = document.getElementById("playerList");
@@ -118,6 +130,35 @@ const sidebar = document.getElementById("sidebar");
 const mobileMenuBtn = document.getElementById("mobileMenuBtn");
 
 let currentMode = "Overall";
+
+function normalizeName(name) {
+  return String(name).trim().toLowerCase();
+}
+
+function findPlayerDiscordId(name) {
+  const target = normalizeName(name);
+
+  for (const mode in allData) {
+    const found = allData[mode].find(
+      (player) =>
+        normalizeName(player.name) === target &&
+        player.discordId &&
+        player.discordId.trim() !== ""
+    );
+
+    if (found) {
+      return found.discordId.trim();
+    }
+  }
+
+  return "";
+}
+
+function getCombatTitle(rank) {
+  if (rank <= 3) return "Combat Master";
+  if (rank <= 7) return "Combat Ace";
+  return "Combat Specialist";
+}
 
 function enterSite() {
   const welcome = document.getElementById("welcome-screen");
@@ -176,8 +217,10 @@ function renderPlayers() {
   }
 
   filtered.forEach((player, index) => {
+    const rank = index + 1;
     const value = getModeValue(player);
     const tierClass = getTierClass(value);
+    const combatTitle = getCombatTitle(rank);
 
     let rankClass = "";
     if (index === 0) rankClass = "rank-1";
@@ -189,12 +232,15 @@ function renderPlayers() {
     card.style.animation = `cardIn 0.45s ease forwards ${index * 0.05}s`;
 
     card.innerHTML = `
-      <div class="num">${index + 1}.</div>
+      <div class="num">${rank}.</div>
 
       <div class="rank-info">
         <img src="https://mc-heads.net/avatar/${player.name}/100" class="av" alt="${player.name}">
         <div class="name-wrap">
-          <strong>${player.name}</strong>
+          <strong>
+            ${player.name}
+            <span class="combat-title">${combatTitle}</span>
+          </strong>
           <div class="subtext">ASIA / MM Player</div>
         </div>
       </div>
@@ -205,22 +251,38 @@ function renderPlayers() {
     `;
 
     card.addEventListener("click", () => {
-      openModal(player.name, value, index + 1);
-      card.classList.add("click-pop");
-      setTimeout(() => card.classList.remove("click-pop"), 340);
-    });
+  playClickSound();
+  openModal(player, value, rank);
+  card.classList.add("click-pop");
+  setTimeout(() => card.classList.remove("click-pop"), 340);
+});
 
     playerList.appendChild(card);
   });
 }
 
-function openModal(name, value, rank) {
-  document.getElementById("modalAvatar").src = `https://mc-heads.net/avatar/${name}/200`;
-  document.getElementById("modalName").textContent = name;
+function openModal(player, value, rank) {
+  document.getElementById("modalAvatar").src = `https://mc-heads.net/avatar/${player.name}/200`;
+  document.getElementById("modalName").textContent = player.name;
   document.getElementById("modalPosition").textContent = `${rank}.`;
   document.getElementById("modalCurrentMode").textContent = currentMode.toUpperCase();
   document.getElementById("modalTier").textContent = value;
-  document.getElementById("modalDiscord").href = "https://discord.gg/4bQaeDNmj6";
+
+  const discordBtn = document.getElementById("modalDiscord");
+  const discordId =
+    player.discordId && player.discordId.trim() !== ""
+      ? player.discordId.trim()
+      : findPlayerDiscordId(player.name);
+
+  if (discordId) {
+    discordBtn.href = `https://discord.com/users/${discordId}`;
+    discordBtn.innerHTML = `<i class="fa-brands fa-discord"></i> Connect Discord`;
+    discordBtn.title = "Open Discord profile";
+  } else {
+    discordBtn.href = defaultDiscordInvite;
+    discordBtn.innerHTML = `<i class="fa-brands fa-discord"></i> Connect Discord`;
+    discordBtn.title = "Discord ID not added yet";
+  }
 
   playerModal.style.display = "flex";
 }
@@ -233,17 +295,21 @@ function filterPlayers() {
   renderPlayers();
 }
 
-mobileMenuBtn.addEventListener("click", () => {
-  sidebar.classList.toggle("active");
-  mobileMenuBtn.classList.add("click-pop");
-  setTimeout(() => mobileMenuBtn.classList.remove("click-pop"), 340);
-});
+if (mobileMenuBtn) {
+  mobileMenuBtn.addEventListener("click", () => {
+    sidebar.classList.toggle("active");
+    mobileMenuBtn.classList.add("click-pop");
+    setTimeout(() => mobileMenuBtn.classList.remove("click-pop"), 340);
+  });
+}
 
-playerModal.addEventListener("click", (e) => {
-  if (e.target === playerModal) {
-    closeModal();
-  }
-});
+if (playerModal) {
+  playerModal.addEventListener("click", (e) => {
+    if (e.target === playerModal) {
+      closeModal();
+    }
+  });
+}
 
 document.querySelectorAll(".click-animate").forEach((btn) => {
   btn.addEventListener("click", function () {
@@ -273,4 +339,21 @@ style.innerHTML = `
 `;
 document.head.appendChild(style);
 
-console.log("new update");
+console.log("all modes + discord ids + combat titles ready");
+
+document.addEventListener("click", function(e) {
+
+  if (
+    e.target.closest("button") ||
+    e.target.closest(".nav-item") ||
+    e.target.closest(".player-card") ||
+    e.target.closest(".modal-close") ||
+    e.target.closest(".click-animate")
+  ) {
+
+    playClickSound();
+
+  }
+
+});
+
