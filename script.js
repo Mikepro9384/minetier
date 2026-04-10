@@ -1,3 +1,13 @@
+/* ========================= */
+/* Detect Mobile Device */
+/* ========================= */
+
+function isMobile() {
+
+  return window.innerWidth <= 768;
+
+}
+
 function playClickSound() {
   const sound = document.getElementById("clickSound");
 
@@ -234,8 +244,12 @@ function renderPlayers() {
       <div class="num">${rank}.</div>
 
       <div class="rank-info">
-        <img src="https://mc-heads.net/avatar/${player.name}/100" class="av" alt="${player.name}">
-        <div class="name-wrap">
+       <img 
+        src="https://mc-heads.net/avatar/${player.name}/100"
+          class="av"
+          loading="lazy"
+          decoding="async">
+          <div class="name-wrap">
           <strong>
             ${player.name}
             <span class="combat-title">${combatTitle}</span>
@@ -355,4 +369,229 @@ document.addEventListener("click", function(e) {
   }
 
 });
+
+/* ========================= */
+/* Padauk Only On Thingyan Week */
+/* ========================= */
+
+function isThingyanWeek() {
+
+  const today =
+    new Date();
+
+  const month =
+    today.getMonth() + 1;
+
+  const day =
+    today.getDate();
+
+  if (
+    month === 4 &&
+    day >= 13 &&
+    day <= 17
+  ) {
+    return true;
+  }
+
+  return false;
+
+}
+
+function createThingyanFlowers() {
+
+  if (!isThingyanWeek())
+    return;
+
+  for (let i = 0; i < 40; i++) {
+
+    const flower =
+      document.createElement(
+        "div"
+      );
+
+    flower.className =
+      "padauk";
+
+    flower.style.left =
+      Math.random() * 100 + "vw";
+
+    flower.style.animationDuration =
+      6 + Math.random() * 6 + "s";
+
+    document.body.appendChild(
+      flower
+    );
+
+  }
+
+}
+
+createThingyanFlowers();
+
+/* ========================= */
+/* Water Rain */
+/* ========================= */
+
+function createWaterRain() {
+
+  for (let i = 0; i < 40; i++) {
+    
+    const drop =
+      document.createElement("div");
+
+    drop.className =
+      "water-rain";
+
+    drop.style.left =
+      Math.random() * 100 + "vw";
+
+    drop.style.animationDuration =
+      0.6 + Math.random() * 0.6 + "s";
+
+    drop.style.animationDelay =
+      Math.random() * 2 + "s";
+
+    document.body.appendChild(
+      drop
+  
+    );
+
+  }
+
+}
+
+/* ========================= */
+/* Optimized Rain */
+/* ========================= */
+
+function createWaterRain() {
+
+  const total =
+    isMobile()
+      ? 25   // mobile
+      : 80;  // desktop
+
+  for (let i = 0; i < total; i++) {
+
+    const drop =
+      document.createElement("div");
+
+    drop.className =
+      "water-rain";
+
+    drop.style.left =
+      Math.random() * 100 + "vw";
+
+    drop.style.animationDuration =
+      0.7 + Math.random() * 0.7 + "s";
+
+    document.body.appendChild(
+      drop
+    );
+
+  }
+
+}
+
+createWaterRain();
+createThingyanFlowers();
+window.addEventListener(
+  "load",
+  function() {
+
+    setTimeout(
+      createWaterRain,
+      300
+    );
+
+    setTimeout(
+      createThingyanFlowers,
+      500
+    );
+
+  }
+);
+
+/* ========================= */
+/* Fireworks Click */
+/* ========================= */
+
+function createFirework(x, y) {
+
+  const firework =
+    document.createElement(
+      "div"
+    );
+
+  firework.className =
+    "firework";
+
+  firework.style.left =
+    x + "px";
+
+  firework.style.top =
+    y + "px";
+
+  document.body.appendChild(
+    firework
+  );
+
+  setTimeout(() => {
+
+    firework.remove();
+
+  }, 1000);
+
+}
+
+document.addEventListener(
+  "click",
+  function(e) {
+
+    createFirework(
+      e.clientX,
+      e.clientY
+    );
+
+  }
+);
+
+/* ========================= */
+/* Fireworks Desktop Only */
+/* ========================= */
+
+if (!isMobile()) {
+
+  document.addEventListener(
+    "click",
+    function(e) {
+
+      createFirework(
+        e.clientX,
+        e.clientY
+      );
+
+    }
+  );
+
+}
+
+/* ========================= */
+/* Low Power Mode */
+/* ========================= */
+
+function isSlowDevice() {
+
+  return navigator.hardwareConcurrency <= 2;
+
+}
+
+if (isSlowDevice()) {
+
+  console.log(
+    "Low power device detected"
+  );
+
+}
+
 

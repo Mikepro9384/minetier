@@ -771,3 +771,216 @@ body {
   color: #60a5fa;
   border: 1px solid rgba(59,130,246,0.35);
 }
+
+.water-gun {
+  margin-right: 6px;
+  font-size: 18px;
+  display: inline-block;
+  animation: gunBounce 1.2s infinite;
+}
+
+@keyframes gunBounce {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+
+.water-splash {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: #00c6ff;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: splash 0.7s ease-out;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  box-shadow:
+    0 0 0 10px rgba(0, 198, 255, 0.18),
+    0 0 0 22px rgba(0, 198, 255, 0.10);
+}
+
+@keyframes splash {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(7);
+    opacity: 0;
+  }
+}
+
+/* ========================= */
+/* Thingyan Water Rain */
+/* ========================= */
+
+.water-rain {
+
+  position: fixed;
+
+  width: 4px;
+  height: 20px;
+
+  background: linear-gradient(
+    to bottom,
+    #7dd3fc,
+    #38bdf8
+  );
+
+  opacity: 0.6;
+
+  top: -20px;
+
+  pointer-events: none;
+
+  animation: rainFall linear infinite;
+
+  z-index: 0;
+
+}
+
+@keyframes rainFall {
+
+  0% {
+    transform: translateY(-20px);
+  }
+
+  100% {
+    transform: translateY(110vh);
+  }
+
+}
+
+/* ========================= */
+/* Fireworks */
+/* ========================= */
+
+.firework {
+
+  position: fixed;
+
+  width: 8px;
+  height: 8px;
+
+  background: gold;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  animation: explode 1s ease-out;
+
+  z-index: 9999;
+
+}
+
+@keyframes explode {
+
+  0% {
+
+    transform: scale(1);
+
+    opacity: 1;
+
+  }
+
+  100% {
+
+    transform: scale(8);
+
+    opacity: 0;
+
+  }
+
+}
+
+/* ========================= */
+/* Golden Padauk Theme */
+/* ========================= */
+
+:root {
+
+  --accent:
+    #facc15;
+
+  --accent-2:
+    #fde047;
+
+}
+
+.logo-large span {
+
+  color: gold;
+
+  text-shadow:
+    0 0 10px gold,
+    0 0 20px gold;
+
+}
+
+.player-card {
+
+  border-color:
+    rgba(255, 215, 0, 0.25);
+
+}
+
+.player-card:hover {
+
+  box-shadow:
+    0 0 18px gold;
+
+}
+
+/* ========================= */
+/* Image Performance */
+/* ========================= */
+
+img {
+
+  max-width: 100%;
+
+  height: auto;
+
+  image-rendering: auto;
+
+}
+
+/* ========================= */
+/* GPU Acceleration */
+/* ========================= */
+
+.player-card,
+.padauk,
+.water-rain,
+.firework {
+
+  will-change:
+    transform,
+    opacity;
+
+  transform:
+    translateZ(0);
+
+}
+
+/* ========================= */
+/* Mobile Performance */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+  .bg-glow {
+
+    display: none;
+
+  }
+
+  .player-card {
+
+    backdrop-filter: none;
+
+  }
+
+}

@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MineTiers Admin Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0f18;
+  --card: #131c2c;
+  --card-2: #0f1724;
+  --line: rgba(255,255,255,.08);
+  --text: #f4f7ff;
+  --muted: #9fb0ca;
+  --gold: #f6c453;
+  --accent: #4ea8ff;
+  --danger: #ff5f73;
+  --success: #2bc48a;
+}
+* { box-sizing: border-box; font-family: Inter, sans-serif; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(246,196,83,.08), transparent 25%),
+    radial-gradient(circle at right top, rgba(78,168,255,.10), transparent 25%),
+    linear-gradient(180deg, #07101a 0%, #0b1320 100%);
+  color: var(--text);
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+.hidden { display: none !important; }
+.card {
+  background: rgba(19,28,44,.92);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.28);
+}
+.grid { display: grid; gap: 18px; }
+.top-grid { grid-template-columns: 360px 1fr; align-items: start; }
+.panel-title { margin: 0 0 10px; font-size: 1.6rem; font-weight: 900; }
+.sub { color: var(--muted); margin: 0 0 16px; line-height: 1.6; }
+label { display: block; font-size: .9rem; color: var(--muted); margin: 0 0 8px; }
+input, select, textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: #0c1524;
+  color: white;
+  border-radius: 12px;
+  padding: 12px 14px;
+  outline: none;
+  margin-bottom: 14px;
+}
+textarea { min-height: 110px; resize: vertical; }
+button {
+  border: 0;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-weight: 800;
+  cursor: pointer;
+  color: white;
+  background: linear-gradient(135deg, #4ea8ff, #2563eb);
+}
+button.secondary { background: rgba(255,255,255,.08); }
+button.danger { background: linear-gradient(135deg, #ff6a7c, #e11d48); }
+button.success { background: linear-gradient(135deg, #34d399, #059669); }
+button.gold { background: linear-gradient(135deg, #f6c453, #e7a81d); color: #1a1303; }
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.login-wrap {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+.login-card {
+  width: min(420px, 100%);
+  text-align: center;
+}
+.logo {
+  font-size: 2rem;
+  font-weight: 900;
+  margin: 0 0 8px;
+}
+.logo span { color: var(--gold); }
+.badge {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(246,196,83,.12);
+  color: #ffd96a;
+  border: 1px solid rgba(246,196,83,.25);
+  font-size: .8rem;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+.notice {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  margin-top: 12px;
+}
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.mode-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--line);
+  font-weight: 800;
+}
+.list-head {
+  display: grid;
+  grid-template-columns: 56px 1fr 150px 220px;
+  gap: 12px;
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding: 0 12px 10px;
+}
+.player-list { display: flex; flex-direction: column; gap: 10px; }
+.player-row {
+  display: grid;
+  grid-template-columns: 56px 1fr 150px 220px;
+  gap: 12px;
+  align-items: center;
+  background: var(--card-2);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 12px;
+}
+.player-row.dragging { opacity: .45; }
+.rank-no {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(255,255,255,.06);
+  font-weight: 900;
+}
+.player-main { min-width: 0; }
+.player-name { font-weight: 800; margin-bottom: 4px; }
+.player-meta { color: var(--muted); font-size: .88rem; }
+.value-box {
+  display: inline-flex;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-weight: 800;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--line);
+}
+.row-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.row-actions button { padding: 10px 12px; }
+.small { font-size: .86rem; color: var(--muted); }
+pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: #09111c;
+  color: #dbeafe;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+}
+@media (max-width: 980px) {
+  .top-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .list-head { display: none; }
+  .player-row {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  .row-actions { justify-content: start; }
+}
+</style>
+</head>
+<body>
+
+<div id="loginScreen" class="login-wrap">
+  <div class="card login-card">
+    <div class="badge">ADMIN ONLY</div>
+    <h1 class="logo">MINE<span>TIERS</span> Admin</h1>
+    <p class="sub">Login password required. Only admin can access this panel.</p>
+
+    <label for="adminPassword">Admin Password</label>
+    <input id="adminPassword" type="password" placeholder="Enter admin password">
+
+    <div class="btn-row">
+      <button class="gold" onclick="loginAdmin()">Login</button>
+      <button class="secondary" onclick="logoutAdmin()">Logout</button>
+    </div>
+
+    <div class="notice">
+      Default password is <strong>ChangeMe123</strong>. Change it after first login.
+    </div>
+  </div>
+</div>
+
+<div id="adminApp" class="container hidden">
+  <div class="toolbar">
+    <div>
+      <h2 class="panel-title">Thingyan Admin Panel</h2>
+      <p class="sub">Add, edit, delete, drag reorder, sync to Firebase, and export data for your main website.</p>
+    </div>
+    <div class="btn-row">
+      <button class="secondary" onclick="saveLocalDraft()">Save Draft</button>
+      <button class="success" onclick="saveToFirebase()">Save to Firebase</button>
+      <button class="gold" onclick="exportJson()">Export JSON</button>
+      <button class="danger" onclick="logoutAdmin()">Logout</button>
+    </div>
+  </div>
+
+  <div class="grid top-grid">
+    <div class="card">
+      <h3 class="panel-title" id="formTitle">Add Player</h3>
+      <p class="small">Use this form to add new players or edit existing players.</p>
+
+      <label for="modeSelect">Gamemode</label>
+      <select id="modeSelect" onchange="changeMode()">
+        <option>Overall</option>
+        <option>Sword</option>
+        <option>Axe</option>
+        <option>Mace</option>
+        <option>Diamond SMP</option>
+        <option>Neth Pot</option>
+        <option>Crystal</option>
+      </select>
+
+      <label for="playerName">Player Name</label>
+      <input id="playerName" placeholder="Enter player name">
+
+      <label for="playerValue">Points / Tier</label>
+      <input id="playerValue" placeholder="Overall = 10, Other modes = HT1 / LT1 / -">
+
+      <label for="discordId">Discord ID</label>
+      <input id="discordId" placeholder="Enter Discord ID">
+
+      <input id="editIndex" type="hidden">
+
+      <div class="btn-row">
+        <button onclick="savePlayer()">Save Player</button>
+        <button class="secondary" onclick="resetForm()">Clear</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="panel-title">Firebase / Main Website Sync</h3>
+      <p class="small">Paste your Firebase config here once. Then this panel can save your rankings online, and your main website can load the same data.</p>
+
+      <label for="firebaseConfig">Firebase Config</label>
+      <textarea id="firebaseConfig" placeholder='Paste your Firebase config JSON here'></textarea>
+
+      <div class="btn-row">
+        <button class="secondary" onclick="saveFirebaseConfig()">Save Config</button>
+        <button class="secondary" onclick="loadFromFirebase()">Load from Firebase</button>
+      </div>
+
+      <div class="notice">
+        Your main website should fetch document path: <strong>minetiers/data/rankings</strong>
+      </div>
+
+      <h4 style="margin-top:18px;">Main Website Fetch Code</h4>
+      <pre id="mainSiteSnippet"></pre>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 18px;">
+    <div class="toolbar" style="margin-bottom: 12px;">
+      <div class="mode-chip">Current Mode: <span id="currentModeLabel">Overall</span></div>
+      <div class="small">Drag rows to reorder rankings.</div>
+    </div>
+
+    <div class="list-head">
+      <span>Rank</span>
+      <span>Player</span>
+      <span>Value</span>
+      <span>Actions</span>
+    </div>
+
+    <div id="playerList" class="player-list"></div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const DEFAULT_PASSWORD = "ChangeMe123";
+const STORAGE_KEY = "minetiers_admin_data_v2";
+const PASSWORD_KEY = "minetiers_admin_password_v2";
+const AUTH_KEY = "minetiers_admin_auth_v2";
+const FIREBASE_CFG_KEY = "minetiers_firebase_cfg_v2";
+
+const starterData = {
+  Overall: [
+    { name: "DRFOXCraft", pts: 60, discordId: "1392351363660382261" },
+    { name: "Marvelz_", pts: 30, discordId: "933630129748455497" },
+    { name: "GwayPyanGy", pts: 10, discordId: "1383852361914515557" }
+  ],
+  Sword: [
+    { name: "DRFOXCraft", tier: "HT1", discordId: "1392351363660382261" },
+    { name: "Marvelz_", tier: "LT1", discordId: "933630129748455497" }
+  ],
+  Axe: [],
+  Mace: [],
+  "Diamond SMP": [],
+  "Neth Pot": [],
+  Crystal: []
+};
+
+let db = null;
+let app = null;
+let currentMode = "Overall";
+let dragIndex = null;
+let allData = loadLocalData();
+
+const playerList = document.getElementById("playerList");
+const modeSelect = document.getElementById("modeSelect");
+const currentModeLabel = document.getElementById("currentModeLabel");
+const formTitle = document.getElementById("formTitle");
+const mainSiteSnippet = document.getElementById("mainSiteSnippet");
+const firebaseConfigBox = document.getElementById("firebaseConfig");
+
+firebaseConfigBox.value = localStorage.getItem(FIREBASE_CFG_KEY) || "";
+renderSnippet();
+
+function loadLocalData() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || structuredClone(starterData);
+  } catch {
+    return structuredClone(starterData);
+  }
+}
+
+function saveLocalDraft() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(allData));
+  alert("Draft saved.");
+}
+
+function getSavedPassword() {
+  return localStorage.getItem(PASSWORD_KEY) || DEFAULT_PASSWORD;
+}
+
+window.loginAdmin = function loginAdmin() {
+  const input = document.getElementById("adminPassword").value;
+  const correct = getSavedPassword();
+
+  if (input !== correct) {
+    alert("Wrong password.");
+    return;
+  }
+
+  localStorage.setItem(AUTH_KEY, "true");
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("adminApp").classList.remove("hidden");
+  renderPlayers();
+};
+
+window.logoutAdmin = function logoutAdmin() {
+  localStorage.removeItem(AUTH_KEY);
+  document.getElementById("adminApp").classList.add("hidden");
+  document.getElementById("loginScreen").classList.remove("hidden");
+};
+
+function bootAuth() {
+  if (localStorage.getItem(AUTH_KEY) === "true") {
+    document.getElementById("loginScreen").classList.add("hidden");
+    document.getElementById("adminApp").classList.remove("hidden");
+    renderPlayers();
+  }
+}
+
+window.changeMode = function changeMode() {
+  currentMode = modeSelect.value;
+  currentModeLabel.textContent = currentMode;
+  resetForm();
+  renderPlayers();
+};
+
+function getPlayerValue(player) {
+  return currentMode === "Overall" ? player.pts : player.tier;
+}
+
+function createPlayerObject(name, value, discordId) {
+  if (currentMode === "Overall") {
+    return { name, pts: Number(value) || 0, discordId };
+  }
+  return { name, tier: value, discordId };
+}
+
+window.savePlayer = function savePlayer() {
+  const name = document.getElementById("playerName").value.trim();
+  const value = document.getElementById("playerValue").value.trim();
+  const discordId = document.getElementById("discordId").value.trim();
+  const editIndex = document.getElementById("editIndex").value;
+
+  if (!name || !value) {
+    alert("Fill player name and points/tier.");
+    return;
+  }
+
+  const obj = createPlayerObject(name, value, discordId);
+  allData[currentMode] ||= [];
+
+  if (editIndex !== "") {
+    allData[currentMode][Number(editIndex)] = obj;
+  } else {
+    allData[currentMode].push(obj);
+  }
+
+  saveLocalDraft();
+  resetForm();
+  renderPlayers();
+};
+
+window.editPlayer = function editPlayer(index) {
+  const p = allData[currentMode][index];
+  document.getElementById("playerName").value = p.name || "";
+  document.getElementById("playerValue").value = getPlayerValue(p) || "";
+  document.getElementById("discordId").value = p.discordId || "";
+  document.getElementById("editIndex").value = index;
+  formTitle.textContent = "Edit Player";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+window.deletePlayer = function deletePlayer(index) {
+  if (!confirm("Delete this player?")) return;
+  allData[currentMode].splice(index, 1);
+  saveLocalDraft();
+  renderPlayers();
+};
+
+window.resetForm = function resetForm() {
+  document.getElementById("playerName").value = "";
+  document.getElementById("playerValue").value = "";
+  document.getElementById("discordId").value = "";
+  document.getElementById("editIndex").value = "";
+  formTitle.textContent = "Add Player";
+};
+
+function renderPlayers() {
+  currentModeLabel.textContent = currentMode;
+  playerList.innerHTML = "";
+  const players = allData[currentMode] || [];
+
+  players.forEach((player, index) => {
+    const row = document.createElement("div");
+    row.className = "player-row";
+    row.draggable = true;
+    row.dataset.index = index;
+
+    row.innerHTML = `
+      <div class="rank-no">${index + 1}</div>
+      <div class="player-main">
+        <div class="player-name">${player.name}</div>
+        <div class="player-meta">Discord ID: ${player.discordId || "Not added"}</div>
+      </div>
+      <div><span class="value-box">${getPlayerValue(player)}</span></div>
+      <div class="row-actions">
+        <button class="secondary" onclick="editPlayer(${index})">Edit</button>
+        <button class="danger" onclick="deletePlayer(${index})">Delete</button>
+      </div>
+    `;
+
+    row.addEventListener("dragstart", () => {
+      dragIndex = index;
+      row.classList.add("dragging");
+    });
+
+    row.addEventListener("dragend", () => {
+      row.classList.remove("dragging");
+    });
+
+    row.addEventListener("dragover", (e) => e.preventDefault());
+
+    row.addEventListener("drop", () => {
+      if (dragIndex === null || dragIndex === index) return;
+      const moved = allData[currentMode].splice(dragIndex, 1)[0];
+      allData[currentMode].splice(index, 0, moved);
+      dragIndex = null;
+      saveLocalDraft();
+      renderPlayers();
+    });
+
+    playerList.appendChild(row);
+  });
+}
+
+window.saveFirebaseConfig = function saveFirebaseConfig() {
+  const raw = firebaseConfigBox.value.trim();
+  if (!raw) {
+    alert("Paste Firebase config first.");
+    return;
+  }
+  localStorage.setItem(FIREBASE_CFG_KEY, raw);
+  alert("Firebase config saved.");
+};
+
+function initFirebaseIfPossible() {
+  try {
+    const raw = localStorage.getItem(FIREBASE_CFG_KEY);
+    if (!raw) return false;
+    const config = JSON.parse(raw);
+    app = initializeApp(config, "minetiers-admin-app");
+    db = getFirestore(app);
+    return true;
+  } catch (err) {
+    console.error(err);
+    alert("Firebase config invalid.");
+    return false;
+  }
+}
+
+window.saveToFirebase = async function saveToFirebase() {
+  if (!db && !initFirebaseIfPossible()) return;
+  try {
+    await setDoc(doc(db, "minetiers", "data"), { rankings: allData, updatedAt: Date.now() });
+    alert("Saved to Firebase.");
+  } catch (err) {
+    console.error(err);
+    alert("Firebase save failed.");
+  }
+};
+
+window.loadFromFirebase = async function loadFromFirebase() {
+  if (!db && !initFirebaseIfPossible()) return;
+  try {
+    const snap = await getDoc(doc(db, "minetiers", "data"));
+    if (!snap.exists()) {
+      alert("No Firebase data found.");
+      return;
+    }
+    const data = snap.data();
+    if (data.rankings) {
+      allData = data.rankings;
+      saveLocalDraft();
+      renderPlayers();
+      alert("Loaded from Firebase.");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Firebase load failed.");
+  }
+};
+
+window.exportJson = function exportJson() {
+  const blob = new Blob([JSON.stringify(allData, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "rankings.json";
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
+function renderSnippet() {
+  mainSiteSnippet.textContent = `
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig = YOUR_FIREBASE_CONFIG;
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+async function loadRankingsFromFirebase() {
+  const snap = await getDoc(doc(db, "minetiers", "data"));
+  if (snap.exists()) {
+    const remote = snap.data().rankings;
+    Object.assign(allData, remote);
+    renderPlayers();
+  }
+}
+
+loadRankingsFromFirebase();`.trim();
+}
+
+bootAuth();
+
+// =============================
+// NEW FEATURES: PASSWORD, ROLES, BACKUP, AUTO-SAVE, HISTORY, UNDO
+// =============================
+
+let historyStack = [];
+
+function pushHistory() {
+  historyStack.push(JSON.stringify(allData));
+  if (historyStack.length > 20) historyStack.shift();
+}
+
+window.undoLastChange = function undoLastChange() {
+  if (historyStack.length === 0) {
+    alert("Nothing to undo.");
+    return;
+  }
+  const prev = historyStack.pop();
+  allData = JSON.parse(prev);
+  saveLocalDraft();
+  renderPlayers();
+};
+
+// AUTO SAVE every 10 seconds
+setInterval(() => {
+  saveLocalDraft();
+  console.log("Auto-saved.");
+}, 10000);
+
+// BACKUP DATA
+window.backupData = function backupData() {
+  const blob = new Blob([
+    JSON.stringify(allData, null, 2)
+  ], { type: "application/json" });
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "minetiers-backup.json";
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
+// RESTORE DATA
+window.restoreData = function restoreData() {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "application/json";
+
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      try {
+        allData = JSON.parse(reader.result);
+        saveLocalDraft();
+        renderPlayers();
+        alert("Backup restored.");
+      } catch {
+        alert("Invalid backup file.");
+      }
+    };
+
+    reader.readAsText(file);
+  };
+
+  input.click();
+};
+
+// CHANGE PASSWORD
+window.changePassword = function changePassword() {
+  const oldPass = prompt("Enter current password");
+  if (oldPass !== getSavedPassword()) {
+    alert("Wrong password.");
+    return;
+  }
+
+  const newPass = prompt("Enter new password");
+  if (!newPass) return;
+
+  localStorage.setItem(PASSWORD_KEY, newPass);
+  alert("Password changed successfully.");
+};
+
+// MULTIPLE ADMINS + ROLES
+let admins = JSON.parse(localStorage.getItem("minetiers_admin_roles")) || [
+  { username: "admin", role: "admin" }
+];
+
+window.addAdmin = function addAdmin() {
+  const username = prompt("Enter admin username");
+  const role = prompt("Role: admin or moderator");
+
+  if (!username || !role) return;
+
+  admins.push({ username, role });
+
+  localStorage.setItem(
+    "minetiers_admin_roles",
+    JSON.stringify(admins)
+  );
+
+  alert("Admin added.");
+};
+changeMode();
+</script>
+</body>
+</html>

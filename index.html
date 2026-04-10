@@ -3,157 +3,361 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MineTiers | Myanmar PvP Rankings</title>
+  <title>MineTiers | Thingyan Festival Edition</title>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" as="style">
+
+  <!-- Google Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
+
+  <!-- Thingyan Banner -->
+
+  <!-- Background Effects -->
   <div class="bg-grid"></div>
   <div class="bg-glow glow-1"></div>
   <div class="bg-glow glow-2"></div>
 
+  <!-- Padauk Flowers -->
+  <div class="padauk"></div>
+  <div class="padauk p2"></div>
+  <div class="padauk p3"></div>
+
+  <!-- Welcome Screen -->
   <div id="welcome-screen" class="welcome-overlay">
     <div class="welcome-content">
-      <h1 class="logo-large">MINE<span>TIERS</span></h1>
-      <p class="welcome-text">The official Myanmar tier list inspired ranking experience.</p>
+
+      <h1 class="logo-large">
+        MINE<span>TIERS</span>
+      </h1>
+
+      <p class="welcome-text">
+        Welcome to the Thingyan Festival Ranking Season 💦🌼
+      </p>
 
       <div class="welcome-actions">
-        <button class="enter-btn click-animate" onclick="enterSite()">
-          Explore Rankings <i class="fa-solid fa-bolt"></i>
+
+        <button
+          class="enter-btn click-animate"
+          onclick="enterSite()">
+
+          Explore Rankings
+          <i class="fa-solid fa-bolt"></i>
+
         </button>
 
-        <a href="https://discord.gg/4bQaeDNmj6" target="_blank" class="discord-btn click-animate">
+        <a
+          href="https://discord.gg/4bQaeDNmj6"
+          target="_blank"
+          class="discord-btn click-animate">
+
           <i class="fa-brands fa-discord"></i>
           Join Discord
+
         </a>
+
       </div>
 
-      <div class="welcome-meta">Developer - MikeTheClover</div>
+      <div class="welcome-meta">
+        Developer - MikeTheClover
+      </div>
+
     </div>
   </div>
 
-  <button class="mobile-menu-btn click-animate" id="mobileMenuBtn" aria-label="Toggle menu">
+  <!-- Mobile Menu Button -->
+  <button
+    class="mobile-menu-btn click-animate"
+    id="mobileMenuBtn"
+    aria-label="Toggle menu">
+
     <i class="fa-solid fa-bars"></i>
+
   </button>
 
-  <div id="main-content" class="app-shell" style="display: none;">
-    <aside class="side-nav" id="sidebar">
+  <!-- Main App -->
+  <div
+    id="main-content"
+    class="app-shell"
+    style="display: none;">
+
+    <!-- Sidebar -->
+    <aside
+      class="side-nav"
+      id="sidebar">
+
       <div class="side-top">
-        <div class="logo">MINE<span>TIERS</span></div>
+
+        <div class="logo">
+          MINE<span>TIERS</span>
+        </div>
+
         <div class="server-box">
-          <div class="server-icon"><i class="fa-solid fa-cube"></i></div>
+
+          <div class="server-icon">
+            <i class="fa-solid fa-cube"></i>
+          </div>
+
           <div>
             <small>Server</small>
             <h4>mcpvp.club</h4>
           </div>
+
         </div>
+
       </div>
 
+      <!-- Navigation -->
       <nav class="nav-container">
+
         <div class="nav-section">
+
           <small>GENERAL</small>
-          <button class="nav-item active" onclick="switchMode('Overall')">
-            <i class="fa-solid fa-trophy"></i> Overall
+
+          <button
+            class="nav-item active"
+            onclick="switchMode('Overall')">
+
+            <i class="fa-solid fa-trophy"></i>
+            Overall
+
           </button>
+
         </div>
 
         <div class="nav-section">
+
           <small>CORE MODES</small>
-          <button class="nav-item" onclick="switchMode('Sword')">
-            <i class="fa-solid fa-khanda"></i> Sword
+
+          <button
+            class="nav-item"
+            onclick="switchMode('Sword')">
+
+            <i class="fa-solid fa-khanda"></i>
+            Sword
+
           </button>
-          <button class="nav-item" onclick="switchMode('Axe')">
-            <i class="fa-solid fa-hammer"></i> Axe
+
+          <button
+            class="nav-item"
+            onclick="switchMode('Axe')">
+
+            <i class="fa-solid fa-hammer"></i>
+            Axe
+
           </button>
-          <button class="nav-item" onclick="switchMode('Mace')">
-            <i class="fa-solid fa-star-and-crescent"></i> Mace
+
+          <button
+            class="nav-item"
+            onclick="switchMode('Mace')">
+
+            <i class="fa-solid fa-star-and-crescent"></i>
+            Mace
+
           </button>
-          <button class="nav-item" onclick="switchMode('Diamond SMP')">
-            <i class="fa-solid fa-gem"></i> Diamond SMP
+
+          <button
+            class="nav-item"
+            onclick="switchMode('Diamond SMP')">
+
+            <i class="fa-solid fa-gem"></i>
+            Diamond SMP
+
           </button>
+
         </div>
 
         <div class="nav-section">
+
           <small>POTION & CRYSTAL</small>
-          <button class="nav-item" onclick="switchMode('Neth Pot')">
-            <i class="fa-solid fa-flask"></i> Neth Pot
+
+          <button
+            class="nav-item"
+            onclick="switchMode('Neth Pot')">
+
+            <i class="fa-solid fa-flask"></i>
+            Neth Pot
+
           </button>
-          <button class="nav-item" onclick="switchMode('Crystal')">
-            <i class="fa-solid fa-wand-magic-sparkles"></i> Crystal
+
+          <button
+            class="nav-item"
+            onclick="switchMode('Crystal')">
+
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            Crystal
+
           </button>
+
         </div>
+
       </nav>
+
     </aside>
 
+    <!-- Main Stage -->
     <main class="main-stage">
+
       <header class="stage-header">
+
         <div>
-          <div class="page-chip">Season Rankings</div>
-          <h1 id="mode-title">Overall Rankings</h1>
-          <p class="page-subtitle">Top Myanmar PvP players ranked by points and tier placements.</p>
+
+          <div class="page-chip">
+            Season Rankings
+          </div>
+
+          <h1 id="mode-title">
+            Overall Rankings
+          </h1>
+
+          <p class="page-subtitle">
+            Top Myanmar PvP players ranked by points and tier placements.
+          </p>
+
         </div>
 
+        <!-- Search -->
         <div class="header-right">
+
           <div class="search-wrapper">
+
             <i class="fa-solid fa-magnifying-glass"></i>
+
             <input
               type="text"
               id="searchInput"
               placeholder="Search Myanmar players..."
-              onkeyup="filterPlayers()"
-            >
+              onkeyup="filterPlayers()">
+
           </div>
+
         </div>
+
       </header>
 
+      <!-- Table Header -->
       <div class="table-header">
+
         <span>#</span>
         <span>Player</span>
         <span>Region</span>
         <span>Rank</span>
+
       </div>
 
-      <div class="leaderboard-grid" id="playerList"></div>
+      <!-- Player List -->
+      <div
+        class="leaderboard-grid"
+        id="playerList">
+      </div>
+
     </main>
+
   </div>
 
-  <div id="playerModal" class="modal-overlay">
+  <!-- Player Modal -->
+  <div
+    id="playerModal"
+    class="modal-overlay">
+
     <div class="modal-content">
-      <button class="modal-close click-animate" onclick="closeModal()">
+
+      <button
+        class="modal-close click-animate"
+        onclick="closeModal()">
+
         <i class="fa-solid fa-xmark"></i>
+
       </button>
 
       <div class="modal-top">
+
         <div class="modal-p-avatar">
-          <img id="modalAvatar" src="" alt="avatar">
+
+          <img
+            id="modalAvatar"
+            src=""
+            alt="avatar">
+
         </div>
 
         <div class="modal-p-details">
-          <div class="modal-mini">PLAYER PROFILE</div>
-          <h1 id="modalName">Name</h1>
-          <div class="region-badge">ASIA / MM</div>
 
-          <a id="modalDiscord" href="https://discord.gg/4bQaeDNmj6" target="_blank" class="discord-link-btn click-animate">
+          <div class="modal-mini">
+            PLAYER PROFILE
+          </div>
+
+          <h1 id="modalName">
+            Name
+          </h1>
+
+          <div class="region-badge">
+            ASIA / MM
+          </div>
+
+          <a
+            id="modalDiscord"
+            href="https://discord.gg/4bQaeDNmj6"
+            target="_blank"
+            class="discord-link-btn click-animate">
+
             <i class="fa-brands fa-discord"></i>
             Connect Discord
+
           </a>
+
         </div>
+
       </div>
 
       <div class="modal-p-ranks">
+
         <div class="r-row">
-          <span id="modalPosition" class="r-num">1.</span>
-          <span id="modalCurrentMode" class="r-mode">OVERALL</span>
-          <span id="modalTier" class="r-pts">20 Pts</span>
+
+          <span
+            id="modalPosition"
+            class="r-num">
+            1.
+          </span>
+
+          <span
+            id="modalCurrentMode"
+            class="r-mode">
+            OVERALL
+          </span>
+
+          <span
+            id="modalTier"
+            class="r-pts">
+            20 Pts
+          </span>
+
         </div>
+
       </div>
+
     </div>
+
   </div>
-  
-  <!-- <audio id="clickSound" src="zapsplat_multimedia_notification_ui_pop_click_short_001_60935.mp3" preload="auto"></audio> -->
-  <script src="script.js"></script>
+
+  <!-- Click Sound -->
+  <audio
+    id="clickSound"
+    src="pop.mp3"
+    preload="auto">
+  </audio>
+
+  <!-- Script -->
+  <script src="script.js" defer></script>
+
 </body>
 </html>
