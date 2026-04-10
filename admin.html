@@ -221,6 +221,11 @@ pre {
       <button class="secondary" onclick="saveLocalDraft()">Save Draft</button>
       <button class="success" onclick="saveToFirebase()">Save to Firebase</button>
       <button class="gold" onclick="exportJson()">Export JSON</button>
+      <button class="secondary" onclick="changePassword()">Change Password</button>
+      <button class="secondary" onclick="addAdmin()">Add Admin</button>
+      <button class="secondary" onclick="backupData()">Backup</button>
+      <button class="secondary" onclick="restoreData()">Restore</button>
+      <button class="secondary" onclick="undoLastChange()">Undo</button>
       <button class="danger" onclick="logoutAdmin()">Logout</button>
     </div>
   </div>
@@ -347,17 +352,9 @@ function loadLocalData() {
   }
 }
 
-function saveLocalDraft(showMessage = false) {
-
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(allData)
-  );
-
-  if (showMessage) {
-    alert("Draft saved.");
-  }
-
+function saveLocalDraft() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(allData));
+  alert("Draft saved.");
 }
 
 function getSavedPassword() {
@@ -702,10 +699,6 @@ window.addAdmin = function addAdmin() {
   );
 
   alert("Admin added.");
-
-  setInterval(() => {
-  saveLocalDraft();
-}, 10000);
 };
 changeMode();
 </script>
