@@ -214,7 +214,7 @@ pre {
 <div id="adminApp" class="container hidden">
   <div class="toolbar">
     <div>
-      <h2 class="panel-title">Thingyan Admin Panel</h2>
+      <h2 class="panel-title">MineTiers Admin Panel</h2>
       <p class="sub">Add, edit, delete, drag reorder, sync to Firebase, and export data for your main website.</p>
     </div>
     <div class="btn-row">
@@ -352,9 +352,17 @@ function loadLocalData() {
   }
 }
 
-function saveLocalDraft() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(allData));
-  alert("Draft saved.");
+function saveLocalDraft(showMessage = false) {
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(allData)
+  );
+
+  if (showMessage) {
+    alert("Draft saved.");
+  }
+
 }
 
 function getSavedPassword() {
