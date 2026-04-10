@@ -347,9 +347,17 @@ function loadLocalData() {
   }
 }
 
-function saveLocalDraft() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(allData));
-  alert("Draft saved.");
+function saveLocalDraft(showMessage = false) {
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(allData)
+  );
+
+  if (showMessage) {
+    alert("Draft saved.");
+  }
+
 }
 
 function getSavedPassword() {
@@ -694,6 +702,10 @@ window.addAdmin = function addAdmin() {
   );
 
   alert("Admin added.");
+
+  setInterval(() => {
+  saveLocalDraft();
+}, 10000);
 };
 changeMode();
 </script>
