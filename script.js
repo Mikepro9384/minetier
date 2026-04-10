@@ -595,3 +595,47 @@ if (isSlowDevice()) {
 }
 
 
+import {
+  initializeApp
+} from
+"https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc
+} from
+"https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_DOMAIN",
+  projectId: "YOUR_PROJECT_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+async function loadRankingsFromFirebase() {
+
+  const snap = await getDoc(
+    doc(db, "minetiers", "data")
+  );
+
+  if (snap.exists()) {
+
+    const remote =
+      snap.data().rankings;
+
+    Object.assign(
+      allData,
+      remote
+    );
+
+    renderPlayers();
+
+  }
+
+}
+
+loadRankingsFromFirebase();
