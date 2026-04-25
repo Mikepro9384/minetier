@@ -811,37 +811,19 @@ body {
   }
 }
 
-/* ========================= */
-/* Thingyan Water Rain */
-/* ========================= */
-
 .water-rain {
-
   position: fixed;
-
   width: 4px;
   height: 20px;
-
-  background: linear-gradient(
-    to bottom,
-    #7dd3fc,
-    #38bdf8
-  );
-
+  background: linear-gradient(to bottom, #7dd3fc, #38bdf8);
   opacity: 0.6;
-
   top: -20px;
-
   pointer-events: none;
-
   animation: rainFall linear infinite;
-
   z-index: 0;
-
 }
 
 @keyframes rainFall {
-
   0% {
     transform: translateY(-20px);
   }
@@ -849,138 +831,71 @@ body {
   100% {
     transform: translateY(110vh);
   }
-
 }
 
-/* ========================= */
-/* Fireworks */
-/* ========================= */
-
 .firework {
-
   position: fixed;
-
   width: 8px;
   height: 8px;
-
   background: gold;
-
   border-radius: 50%;
-
   pointer-events: none;
-
   animation: explode 1s ease-out;
-
   z-index: 9999;
-
 }
 
 @keyframes explode {
-
   0% {
-
     transform: scale(1);
-
     opacity: 1;
-
   }
 
   100% {
-
     transform: scale(8);
-
     opacity: 0;
-
   }
-
 }
 
-/* ========================= */
-/* Golden Padauk Theme */
-/* ========================= */
-
 :root {
-
-  --accent:
-    #facc15;
-
-  --accent-2:
-    #fde047;
-
+  --accent: #facc15;
+  --accent-2: #fde047;
 }
 
 .logo-large span {
-
   color: gold;
-
   text-shadow:
     0 0 10px gold,
     0 0 20px gold;
-
 }
 
 .player-card {
-
-  border-color:
-    rgba(255, 215, 0, 0.25);
-
+  border-color: rgba(255, 215, 0, 0.25);
 }
 
 .player-card:hover {
-
-  box-shadow:
-    0 0 18px gold;
-
+  box-shadow: 0 0 18px rgb(17, 0, 255);
 }
-
-/* ========================= */
-/* Image Performance */
-/* ========================= */
 
 img {
-
   max-width: 100%;
-
   height: auto;
-
   image-rendering: auto;
-
 }
-
-/* ========================= */
-/* GPU Acceleration */
-/* ========================= */
 
 .player-card,
 .padauk,
 .water-rain,
 .firework {
-
-  will-change:
-    transform,
-    opacity;
-
-  transform:
-    translateZ(0);
-
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
-/* ========================= */
-/* Mobile Performance */
-/* ========================= */
-
 @media (max-width: 768px) {
-
   .bg-glow {
-
     display: none;
-
   }
 
   .player-card {
-
     backdrop-filter: none;
-
   }
-
 }

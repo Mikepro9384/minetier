@@ -1,326 +1,573 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MineTiers Admin Panel</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #0a0f18;
-  --card: #131c2c;
-  --card-2: #0f1724;
-  --line: rgba(255,255,255,.08);
-  --text: #f4f7ff;
-  --muted: #9fb0ca;
-  --gold: #f6c453;
-  --accent: #4ea8ff;
-  --danger: #ff5f73;
-  --success: #2bc48a;
-}
-* { box-sizing: border-box; font-family: Inter, sans-serif; }
-body {
-  margin: 0;
-  background:
-    radial-gradient(circle at top left, rgba(246,196,83,.08), transparent 25%),
-    radial-gradient(circle at right top, rgba(78,168,255,.10), transparent 25%),
-    linear-gradient(180deg, #07101a 0%, #0b1320 100%);
-  color: var(--text);
-}
-.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
-.hidden { display: none !important; }
-.card {
-  background: rgba(19,28,44,.92);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 20px 50px rgba(0,0,0,.28);
-}
-.grid { display: grid; gap: 18px; }
-.top-grid { grid-template-columns: 360px 1fr; align-items: start; }
-.panel-title { margin: 0 0 10px; font-size: 1.6rem; font-weight: 900; }
-.sub { color: var(--muted); margin: 0 0 16px; line-height: 1.6; }
-label { display: block; font-size: .9rem; color: var(--muted); margin: 0 0 8px; }
-input, select, textarea {
-  width: 100%;
-  border: 1px solid var(--line);
-  background: #0c1524;
-  color: white;
-  border-radius: 12px;
-  padding: 12px 14px;
-  outline: none;
-  margin-bottom: 14px;
-}
-textarea { min-height: 110px; resize: vertical; }
-button {
-  border: 0;
-  border-radius: 12px;
-  padding: 12px 16px;
-  font-weight: 800;
-  cursor: pointer;
-  color: white;
-  background: linear-gradient(135deg, #4ea8ff, #2563eb);
-}
-button.secondary { background: rgba(255,255,255,.08); }
-button.danger { background: linear-gradient(135deg, #ff6a7c, #e11d48); }
-button.success { background: linear-gradient(135deg, #34d399, #059669); }
-button.gold { background: linear-gradient(135deg, #f6c453, #e7a81d); color: #1a1303; }
-.btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
-.login-wrap {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-}
-.login-card {
-  width: min(420px, 100%);
-  text-align: center;
-}
-.logo {
-  font-size: 2rem;
-  font-weight: 900;
-  margin: 0 0 8px;
-}
-.logo span { color: var(--gold); }
-.badge {
-  display: inline-block;
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: rgba(246,196,83,.12);
-  color: #ffd96a;
-  border: 1px solid rgba(246,196,83,.25);
-  font-size: .8rem;
-  font-weight: 800;
-  margin-bottom: 14px;
-}
-.notice {
-  padding: 12px 14px;
-  border-radius: 12px;
-  background: rgba(255,255,255,.05);
-  border: 1px solid var(--line);
-  color: var(--muted);
-  margin-top: 12px;
-}
-.toolbar {
-  display: flex;
-  justify-content: space-between;
-  gap: 14px;
-  align-items: center;
-  margin-bottom: 18px;
-  flex-wrap: wrap;
-}
-.mode-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
-  border-radius: 999px;
-  background: rgba(255,255,255,.05);
-  border: 1px solid var(--line);
-  font-weight: 800;
-}
-.list-head {
-  display: grid;
-  grid-template-columns: 56px 1fr 150px 220px;
-  gap: 12px;
-  color: var(--muted);
-  font-size: .82rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  padding: 0 12px 10px;
-}
-.player-list { display: flex; flex-direction: column; gap: 10px; }
-.player-row {
-  display: grid;
-  grid-template-columns: 56px 1fr 150px 220px;
-  gap: 12px;
-  align-items: center;
-  background: var(--card-2);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 12px;
-}
-.player-row.dragging { opacity: .45; }
-.rank-no {
-  width: 40px;
-  height: 40px;
-  display: grid;
-  place-items: center;
-  border-radius: 12px;
-  background: rgba(255,255,255,.06);
-  font-weight: 900;
-}
-.player-main { min-width: 0; }
-.player-name { font-weight: 800; margin-bottom: 4px; }
-.player-meta { color: var(--muted); font-size: .88rem; }
-.value-box {
-  display: inline-flex;
-  padding: 10px 12px;
-  border-radius: 12px;
-  font-weight: 800;
-  background: rgba(255,255,255,.05);
-  border: 1px solid var(--line);
-}
-.row-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-.row-actions button { padding: 10px 12px; }
-.small { font-size: .86rem; color: var(--muted); }
-pre {
-  white-space: pre-wrap;
-  word-break: break-word;
-  background: #09111c;
-  color: #dbeafe;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 14px;
-}
-@media (max-width: 980px) {
-  .top-grid { grid-template-columns: 1fr; }
-}
-@media (max-width: 760px) {
-  .list-head { display: none; }
-  .player-row {
-    grid-template-columns: 1fr;
-    align-items: start;
-  }
-  .row-actions { justify-content: start; }
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MineTiers Admin Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0a0f18;
+      --bg-2:#101827;
+      --card:#131c2c;
+      --card-2:#0f1724;
+      --line:rgba(255,255,255,.08);
+      --text:#f4f7ff;
+      --muted:#9fb0ca;
+      --accent:#4ea8ff;
+      --accent-2:#2563eb;
+      --success:#2bc48a;
+      --danger:#ff5f73;
+      --warning:#f6c453;
+      --radius:20px;
+      --shadow:0 20px 50px rgba(0,0,0,.28);
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;font-family:Inter,sans-serif;background:
+      radial-gradient(circle at top left, rgba(78,168,255,.10), transparent 25%),
+      radial-gradient(circle at top right, rgba(246,196,83,.08), transparent 20%),
+      linear-gradient(180deg,#07101a 0%, #0b1320 100%);
+      color:var(--text);
+    }
+
+    .hidden{display:none !important}
+    .container{max-width:1280px;margin:0 auto;padding:24px}
+    .card{
+      background:rgba(19,28,44,.94);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:20px;
+    }
+
+    .login-wrap{
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:24px;
+    }
+    .login-card{
+      width:min(460px,100%);
+      text-align:center;
+    }
+    .logo{
+      font-size:2rem;
+      font-weight:900;
+      margin:0 0 8px;
+      letter-spacing:-.03em;
+    }
+    .logo span{color:var(--warning)}
+    .sub{color:var(--muted);line-height:1.6;margin:0 0 16px}
+    .badge{
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(78,168,255,.12);
+      color:#9fd1ff;
+      border:1px solid rgba(78,168,255,.25);
+      font-size:.78rem;
+      font-weight:800;
+      margin-bottom:14px;
+    }
+
+    label{
+      display:block;
+      text-align:left;
+      margin:0 0 8px;
+      color:var(--muted);
+      font-size:.92rem;
+      font-weight:600;
+    }
+
+    input,select,textarea{
+      width:100%;
+      border:1px solid var(--line);
+      background:#0c1524;
+      color:#fff;
+      border-radius:14px;
+      padding:13px 14px;
+      outline:none;
+      margin-bottom:14px;
+      font:inherit;
+    }
+
+    input:focus,select:focus,textarea:focus{
+      border-color:rgba(78,168,255,.5);
+      box-shadow:0 0 0 4px rgba(78,168,255,.12);
+    }
+
+    button{
+      border:0;
+      border-radius:14px;
+      padding:12px 16px;
+      font-weight:800;
+      cursor:pointer;
+      color:#fff;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      transition:.2s ease;
+      font:inherit;
+    }
+    button:hover{transform:translateY(-1px)}
+    button.secondary{background:rgba(255,255,255,.07)}
+    button.success{background:linear-gradient(135deg,#34d399,#059669)}
+    button.danger{background:linear-gradient(135deg,#ff6a7c,#e11d48)}
+    button.warning{background:linear-gradient(135deg,#f6c453,#e7a81d);color:#1a1303}
+
+    .btn-row{display:flex;gap:10px;flex-wrap:wrap}
+    .toolbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+    }
+
+    .panel-title{
+      margin:0 0 8px;
+      font-size:1.6rem;
+      font-weight:900;
+      letter-spacing:-.03em;
+    }
+
+    .grid{display:grid;gap:18px}
+    .top-grid{grid-template-columns:360px 1fr}
+    .stats-grid{grid-template-columns:repeat(4,1fr)}
+    .stat{
+      padding:18px;
+      border-radius:18px;
+      background:var(--card-2);
+      border:1px solid var(--line);
+    }
+    .stat small{display:block;color:var(--muted);margin-bottom:8px}
+    .stat strong{font-size:1.35rem}
+
+    .small{font-size:.88rem;color:var(--muted)}
+    .notice{
+      padding:12px 14px;
+      border-radius:12px;
+      background:rgba(255,255,255,.05);
+      border:1px solid var(--line);
+      color:var(--muted);
+      margin-top:10px;
+      line-height:1.6;
+    }
+
+    .mode-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      font-weight:800;
+    }
+
+    .list-head{
+      display:grid;
+      grid-template-columns:60px 1.4fr 140px 160px 180px;
+      gap:12px;
+      color:var(--muted);
+      font-size:.82rem;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      padding:0 12px 10px;
+    }
+
+    .player-list{display:flex;flex-direction:column;gap:10px}
+    .player-row{
+      display:grid;
+      grid-template-columns:60px 1.4fr 140px 160px 180px;
+      gap:12px;
+      align-items:center;
+      background:var(--card-2);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:12px;
+    }
+
+    .player-row.dragging{opacity:.45}
+    .rank-no{
+      width:42px;height:42px;display:grid;place-items:center;
+      border-radius:12px;background:rgba(255,255,255,.06);font-weight:900
+    }
+
+    .player-main{min-width:0}
+    .player-name{font-weight:800;margin-bottom:4px}
+    .player-meta{color:var(--muted);font-size:.88rem;word-break:break-all}
+    .value-box{
+      display:inline-flex;
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:800;
+      background:rgba(255,255,255,.05);
+      border:1px solid var(--line);
+    }
+    .row-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .row-actions button{padding:10px 12px}
+
+    .section-space{margin-top:18px}
+    .search-row{display:grid;grid-template-columns:1fr 180px;gap:12px}
+
+    pre{
+      white-space:pre-wrap;
+      word-break:break-word;
+      background:#09111c;
+      color:#dbeafe;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px;
+      font-size:.88rem;
+      line-height:1.6;
+      overflow:auto;
+    }
+
+    .log-list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      max-height:280px;
+      overflow:auto;
+    }
+    .log-item{
+      padding:12px 14px;
+      border-radius:14px;
+      background:var(--card-2);
+      border:1px solid var(--line);
+    }
+    .log-item strong{display:block;margin-bottom:4px}
+    .log-item span{color:var(--muted);font-size:.9rem}
+
+    @media (max-width:1100px){
+      .top-grid,.stats-grid{grid-template-columns:1fr}
+    }
+    @media (max-width:820px){
+      .list-head{display:none}
+      .player-row{grid-template-columns:1fr}
+      .row-actions{justify-content:flex-start}
+      .search-row{grid-template-columns:1fr}
+    }
+  </style>
 </head>
 <body>
 
-<div id="loginScreen" class="login-wrap">
-  <div class="card login-card">
-    <div class="badge">ADMIN ONLY</div>
-    <h1 class="logo">MINE<span>TIERS</span> Admin</h1>
-    <p class="sub">Login password required. Only admin can access this panel.</p>
+  <!-- LOGIN -->
+  <div id="loginScreen" class="login-wrap">
+    <div class="card login-card">
+      <div class="badge">FIREBASE AUTH LOGIN</div>
+      <h1 class="logo">MINE<span>TIERS</span> Admin</h1>
+      <p class="sub">Login using your admin email or username and password.</p>
 
-    <label for="adminPassword">Admin Password</label>
-    <input id="adminPassword" type="password" placeholder="Enter admin password">
+      <label for="loginIdentifier">Email or Username</label>
+      <input id="loginIdentifier" type="text" placeholder="admin@example.com or admin">
 
-    <div class="btn-row">
-      <button class="gold" onclick="loginAdmin()">Login</button>
-      <button class="secondary" onclick="logoutAdmin()">Logout</button>
-    </div>
+      <label for="loginPassword">Password</label>
+      <input id="loginPassword" type="password" placeholder="Enter password">
 
-    <div class="notice">
-      Default password is <strong>ChangeMe123</strong>. Change it after first login.
-    </div>
-  </div>
-</div>
-
-<div id="adminApp" class="container hidden">
-  <div class="toolbar">
-    <div>
-      <h2 class="panel-title">MineTiers Admin Panel</h2>
-      <p class="sub">Add, edit, delete, drag reorder, sync to Firebase, and export data for your main website.</p>
-    </div>
-    <div class="btn-row">
-      <button class="secondary" onclick="saveLocalDraft()">Save Draft</button>
-      <button class="success" onclick="saveToFirebase()">Save to Firebase</button>
-      <button class="gold" onclick="exportJson()">Export JSON</button>
-      <button class="secondary" onclick="changePassword()">Change Password</button>
-      <button class="secondary" onclick="addAdmin()">Add Admin</button>
-      <button class="secondary" onclick="backupData()">Backup</button>
-      <button class="secondary" onclick="restoreData()">Restore</button>
-      <button class="secondary" onclick="undoLastChange()">Undo</button>
-      <button class="danger" onclick="logoutAdmin()">Logout</button>
-    </div>
-  </div>
-
-  <div class="grid top-grid">
-    <div class="card">
-      <h3 class="panel-title" id="formTitle">Add Player</h3>
-      <p class="small">Use this form to add new players or edit existing players.</p>
-
-      <label for="modeSelect">Gamemode</label>
-      <select id="modeSelect" onchange="changeMode()">
-        <option>Overall</option>
-        <option>Sword</option>
-        <option>Axe</option>
-        <option>Mace</option>
-        <option>Diamond SMP</option>
-        <option>Neth Pot</option>
-        <option>Crystal</option>
-      </select>
-
-      <label for="playerName">Player Name</label>
-      <input id="playerName" placeholder="Enter player name">
-
-      <label for="playerValue">Points / Tier</label>
-      <input id="playerValue" placeholder="Overall = 10, Other modes = HT1 / LT1 / -">
-
-      <label for="discordId">Discord ID</label>
-      <input id="discordId" placeholder="Enter Discord ID">
-
-      <input id="editIndex" type="hidden">
-
-      <div class="btn-row">
-        <button onclick="savePlayer()">Save Player</button>
-        <button class="secondary" onclick="resetForm()">Clear</button>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3 class="panel-title">Firebase / Main Website Sync</h3>
-      <p class="small">Paste your Firebase config here once. Then this panel can save your rankings online, and your main website can load the same data.</p>
-
-      <label for="firebaseConfig">Firebase Config</label>
-      <textarea id="firebaseConfig" placeholder='Paste your Firebase config JSON here'></textarea>
-
-      <div class="btn-row">
-        <button class="secondary" onclick="saveFirebaseConfig()">Save Config</button>
-        <button class="secondary" onclick="loadFromFirebase()">Load from Firebase</button>
+      <div class="btn-row" style="justify-content:center">
+        <button onclick="loginAdmin()">Login</button>
+        <button class="secondary" onclick="sendResetEmail()">Reset Password</button>
       </div>
 
       <div class="notice">
-        Your main website should fetch document path: <strong>minetiers/data/rankings</strong>
+        First time setup: create your first admin user in Firebase Authentication, then create a matching Firestore document in <strong>adminUsers</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div id="adminApp" class="container hidden">
+    <div class="toolbar">
+      <div>
+        <h2 class="panel-title">MineTiers Admin Panel</h2>
+        <p class="sub">Real-time leaderboard management with Firebase sync, drag reorder, player edit, and admin tools.</p>
+      </div>
+      <div class="btn-row">
+        <button class="secondary" onclick="loadFromFirebase()">Reload</button>
+        <button class="success" onclick="saveToFirebase()">Save to Firebase</button>
+        <button class="secondary" onclick="exportJson()">Export JSON</button>
+        <button class="secondary" onclick="importJson()">Import JSON</button>
+        <button class="secondary" onclick="changeMyPassword()">Change Password</button>
+        <button class="danger" onclick="logoutAdmin()">Logout</button>
+      </div>
+    </div>
+
+    <div class="grid stats-grid">
+      <div class="stat card">
+        <small>Total Players (Current Mode)</small>
+        <strong id="statPlayers">0</strong>
+      </div>
+      <div class="stat card">
+        <small>Current Mode</small>
+        <strong id="statMode">Overall</strong>
+      </div>
+      <div class="stat card">
+        <small>Your Role</small>
+        <strong id="statRole">-</strong>
+      </div>
+      <div class="stat card">
+        <small>Last Saved</small>
+        <strong id="statSaved">Not yet</strong>
+      </div>
+    </div>
+
+    <div class="grid top-grid section-space">
+      <!-- LEFT FORM -->
+      <div class="card">
+        <h3 class="panel-title" id="formTitle">Add Player</h3>
+        <p class="small">Add new players or edit existing players for the selected mode.</p>
+
+        <label for="modeSelect">Gamemode</label>
+        <select id="modeSelect" onchange="changeMode()">
+          <option>Overall</option>
+          <option>Sword</option>
+          <option>Axe</option>
+          <option>Mace</option>
+          <option>Diamond SMP</option>
+          <option>Neth Pot</option>
+          <option>Crystal</option>
+        </select>
+
+        <label for="playerName">Player Name</label>
+        <input id="playerName" placeholder="Enter player name">
+
+        <label for="playerValue">Points / Tier</label>
+        <input id="playerValue" placeholder="Overall = 10, Other modes = HT1 / LT1 / -">
+
+        <label for="discordId">Discord ID</label>
+        <input id="discordId" placeholder="Enter Discord ID">
+
+        <label for="playerRegion">Region</label>
+        <input id="playerRegion" placeholder="Example: ASIA / MM">
+
+        <input id="editIndex" type="hidden">
+
+        <div class="btn-row">
+          <button onclick="savePlayer()">Save Player</button>
+          <button class="secondary" onclick="resetForm()">Clear</button>
+          <button class="warning" onclick="duplicatePlayer()">Duplicate</button>
+        </div>
+
+        <div class="notice">
+          Tip: In <strong>Overall</strong>, value is numeric points. In other modes, value is a tier like <strong>HT1</strong>, <strong>LT1</strong>, or <strong>-</strong>.
+        </div>
       </div>
 
-      <h4 style="margin-top:18px;">Main Website Fetch Code</h4>
-      <pre id="mainSiteSnippet"></pre>
+      <!-- RIGHT -->
+      <div class="grid">
+        <div class="card">
+          <div class="toolbar" style="margin-bottom:12px">
+            <div class="mode-chip">Current Mode: <span id="currentModeLabel">Overall</span></div>
+            <div class="small">Drag rows to reorder rankings. Public site can auto-read from Firestore document <strong>leaderboards/main</strong>.</div>
+          </div>
+
+          <div class="search-row">
+            <input id="searchInput" placeholder="Search players in current mode..." oninput="renderPlayers()">
+            <select id="sortSelect" onchange="renderPlayers()">
+              <option value="manual">Manual Order</option>
+              <option value="name-asc">Name A-Z</option>
+              <option value="name-desc">Name Z-A</option>
+            </select>
+          </div>
+
+          <div class="section-space">
+            <div class="list-head">
+              <span>Rank</span>
+              <span>Player</span>
+              <span>Value</span>
+              <span>Discord ID</span>
+              <span>Actions</span>
+            </div>
+            <div id="playerList" class="player-list"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="panel-title">Public Website Sync Snippet</h3>
+          <p class="small">Use this on your public MineTiers website to auto-load live rankings from Firebase.</p>
+          <pre id="publicSnippet"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN USERS -->
+    <div class="card section-space">
+      <div class="toolbar">
+        <div>
+          <h3 class="panel-title">Admin Management</h3>
+          <p class="small">Create staff/admin documents for users that already exist in Firebase Authentication.</p>
+        </div>
+        <div class="small">Only <strong>superadmin</strong> or <strong>admin</strong> should manage admin users.</div>
+      </div>
+
+      <div class="grid" style="grid-template-columns:1fr 1fr;gap:18px">
+        <div>
+          <label for="adminUid">Firebase Auth UID</label>
+          <input id="adminUid" placeholder="Enter Firebase user UID">
+
+          <label for="adminDisplayName">Display Name</label>
+          <input id="adminDisplayName" placeholder="Enter display name">
+
+          <label for="adminUsername">Username</label>
+          <input id="adminUsername" placeholder="Enter username">
+
+          <label for="adminEmail">Email</label>
+          <input id="adminEmail" placeholder="Enter email">
+
+          <label for="adminRole">Role</label>
+          <select id="adminRole">
+            <option>editor</option>
+            <option>admin</option>
+            <option>superadmin</option>
+          </select>
+
+          <label for="adminStatus">Status</label>
+          <select id="adminStatus">
+            <option>active</option>
+            <option>disabled</option>
+          </select>
+
+          <div class="btn-row">
+            <button onclick="saveAdminUser()">Save Admin User</button>
+            <button class="secondary" onclick="loadAdminUsers()">Refresh Admins</button>
+          </div>
+        </div>
+
+        <div>
+          <div id="adminUsersList" class="log-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGS -->
+    <div class="card section-space">
+      <div class="toolbar">
+        <div>
+          <h3 class="panel-title">Audit Logs</h3>
+          <p class="small">Recent admin actions saved in Firestore.</p>
+        </div>
+        <div class="btn-row">
+          <button class="secondary" onclick="loadLogs()">Refresh Logs</button>
+        </div>
+      </div>
+      <div id="logList" class="log-list"></div>
     </div>
   </div>
 
-  <div class="card" style="margin-top: 18px;">
-    <div class="toolbar" style="margin-bottom: 12px;">
-      <div class="mode-chip">Current Mode: <span id="currentModeLabel">Overall</span></div>
-      <div class="small">Drag rows to reorder rankings.</div>
-    </div>
+  <script type="module">
+    import { initializeApp, getApps, deleteApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      signOut,
+      sendPasswordResetEmail,
+      updatePassword,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      setDoc,
+      updateDoc,
+      collection,
+      addDoc,
+      getDocs,
+      query,
+      orderBy,
+      limit,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-    <div class="list-head">
-      <span>Rank</span>
-      <span>Player</span>
-      <span>Value</span>
-      <span>Actions</span>
-    </div>
+    // =====================================
+    // FIREBASE CONFIG
+    // =====================================
+    const firebaseConfig = YOUR_FIREBASE_CONFIG_HERE;
 
-    <div id="playerList" class="player-list"></div>
-  </div>
-</div>
+    const MODES = ["Overall", "Sword", "Axe", "Mace", "Diamond SMP", "Neth Pot", "Crystal"];
 
-<script type="module">
+    const starterData = {
+      Overall: [],
+      Sword: [],
+      Axe: [],
+      Mace: [],
+      "Diamond SMP": [],
+      "Neth Pot": [],
+      Crystal: []
+    };
+
+    let app;
+    let auth;
+    let db;
+
+    let currentUser = null;
+    let currentAdmin = null;
+    let currentMode = "Overall";
+    let dragIndex = null;
+    let allData = structuredClone(starterData);
+    let lastLoadedRemote = null;
+
+    const playerList = document.getElementById("playerList");
+    const modeSelect = document.getElementById("modeSelect");
+    const currentModeLabel = document.getElementById("currentModeLabel");
+    const formTitle = document.getElementById("formTitle");
+    const publicSnippet = document.getElementById("publicSnippet");
+
+    function initFirebase() {
+      app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      db = getFirestore(app);
+    }
+
+    function ensureModes(data) {
+      MODES.forEach(mode => {
+        if (!Array.isArray(data[mode])) data[mode] = [];
+      });
+      return data;
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function structuredCloneSafe(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    }
+
+    function nowText() {
+      return new Date().toLocaleString();
+    }
+
+    function renderStats() {
+      const players = allData[currentMode] || [];
+      document.getElementById("statPlayers").textContent = players.length;
+      document.getElementById("statMode").textContent = currentMode;
+      document.getElementById("statRole").textContent = currentAdmin?.role || "-";
+      document.getElementById("statSaved").textContent = lastLoadedRemote?.updatedAtText || "Not yet";
+    }
+
+    function renderSnippet() {
+      publicSnippet.textContent = `
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-const DEFAULT_PASSWORD = "ChangeMe123";
-const STORAGE_KEY = "minetiers_admin_data_v2";
-const PASSWORD_KEY = "minetiers_admin_password_v2";
-const AUTH_KEY = "minetiers_admin_auth_v2";
-const FIREBASE_CFG_KEY = "minetiers_firebase_cfg_v2";
+const firebaseConfig = YOUR_FIREBASE_CONFIG_HERE;
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-const starterData = {
-  Overall: [
-    { name: "DRFOXCraft", pts: 60, discordId: "1392351363660382261" },
-    { name: "Marvelz_", pts: 30, discordId: "933630129748455497" },
-    { name: "GwayPyanGy", pts: 10, discordId: "1383852361914515557" }
-  ],
-  Sword: [
-    { name: "DRFOXCraft", tier: "HT1", discordId: "1392351363660382261" },
-    { name: "Marvelz_", tier: "LT1", discordId: "933630129748455497" }
-  ],
+const allData = {
+  Overall: [],
+  Sword: [],
   Axe: [],
   Mace: [],
   "Diamond SMP": [],
@@ -328,387 +575,543 @@ const starterData = {
   Crystal: []
 };
 
-let db = null;
-let app = null;
-let currentMode = "Overall";
-let dragIndex = null;
-let allData = loadLocalData();
-
-const playerList = document.getElementById("playerList");
-const modeSelect = document.getElementById("modeSelect");
-const currentModeLabel = document.getElementById("currentModeLabel");
-const formTitle = document.getElementById("formTitle");
-const mainSiteSnippet = document.getElementById("mainSiteSnippet");
-const firebaseConfigBox = document.getElementById("firebaseConfig");
-
-firebaseConfigBox.value = localStorage.getItem(FIREBASE_CFG_KEY) || "";
-renderSnippet();
-
-function loadLocalData() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || structuredClone(starterData);
-  } catch {
-    return structuredClone(starterData);
-  }
-}
-
-function saveLocalDraft(showMessage = false) {
-
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(allData)
-  );
-
-  if (showMessage) {
-    alert("Draft saved.");
-  }
-
-}
-
-function getSavedPassword() {
-  return localStorage.getItem(PASSWORD_KEY) || DEFAULT_PASSWORD;
-}
-
-window.loginAdmin = function loginAdmin() {
-  const input = document.getElementById("adminPassword").value;
-  const correct = getSavedPassword();
-
-  if (input !== correct) {
-    alert("Wrong password.");
-    return;
-  }
-
-  localStorage.setItem(AUTH_KEY, "true");
-  document.getElementById("loginScreen").classList.add("hidden");
-  document.getElementById("adminApp").classList.remove("hidden");
-  renderPlayers();
-};
-
-window.logoutAdmin = function logoutAdmin() {
-  localStorage.removeItem(AUTH_KEY);
-  document.getElementById("adminApp").classList.add("hidden");
-  document.getElementById("loginScreen").classList.remove("hidden");
-};
-
-function bootAuth() {
-  if (localStorage.getItem(AUTH_KEY) === "true") {
-    document.getElementById("loginScreen").classList.add("hidden");
-    document.getElementById("adminApp").classList.remove("hidden");
+onSnapshot(doc(db, "leaderboards", "main"), (snap) => {
+  if (!snap.exists()) return;
+  const data = snap.data();
+  if (data.rankings) {
+    Object.assign(allData, data.rankings);
     renderPlayers();
   }
-}
-
-window.changeMode = function changeMode() {
-  currentMode = modeSelect.value;
-  currentModeLabel.textContent = currentMode;
-  resetForm();
-  renderPlayers();
-};
-
-function getPlayerValue(player) {
-  return currentMode === "Overall" ? player.pts : player.tier;
-}
-
-function createPlayerObject(name, value, discordId) {
-  if (currentMode === "Overall") {
-    return { name, pts: Number(value) || 0, discordId };
-  }
-  return { name, tier: value, discordId };
-}
-
-window.savePlayer = function savePlayer() {
-  const name = document.getElementById("playerName").value.trim();
-  const value = document.getElementById("playerValue").value.trim();
-  const discordId = document.getElementById("discordId").value.trim();
-  const editIndex = document.getElementById("editIndex").value;
-
-  if (!name || !value) {
-    alert("Fill player name and points/tier.");
-    return;
-  }
-
-  const obj = createPlayerObject(name, value, discordId);
-  allData[currentMode] ||= [];
-
-  if (editIndex !== "") {
-    allData[currentMode][Number(editIndex)] = obj;
-  } else {
-    allData[currentMode].push(obj);
-  }
-
-  saveLocalDraft();
-  resetForm();
-  renderPlayers();
-};
-
-window.editPlayer = function editPlayer(index) {
-  const p = allData[currentMode][index];
-  document.getElementById("playerName").value = p.name || "";
-  document.getElementById("playerValue").value = getPlayerValue(p) || "";
-  document.getElementById("discordId").value = p.discordId || "";
-  document.getElementById("editIndex").value = index;
-  formTitle.textContent = "Edit Player";
-  window.scrollTo({ top: 0, behavior: "smooth" });
-};
-
-window.deletePlayer = function deletePlayer(index) {
-  if (!confirm("Delete this player?")) return;
-  allData[currentMode].splice(index, 1);
-  saveLocalDraft();
-  renderPlayers();
-};
-
-window.resetForm = function resetForm() {
-  document.getElementById("playerName").value = "";
-  document.getElementById("playerValue").value = "";
-  document.getElementById("discordId").value = "";
-  document.getElementById("editIndex").value = "";
-  formTitle.textContent = "Add Player";
-};
-
-function renderPlayers() {
-  currentModeLabel.textContent = currentMode;
-  playerList.innerHTML = "";
-  const players = allData[currentMode] || [];
-
-  players.forEach((player, index) => {
-    const row = document.createElement("div");
-    row.className = "player-row";
-    row.draggable = true;
-    row.dataset.index = index;
-
-    row.innerHTML = `
-      <div class="rank-no">${index + 1}</div>
-      <div class="player-main">
-        <div class="player-name">${player.name}</div>
-        <div class="player-meta">Discord ID: ${player.discordId || "Not added"}</div>
-      </div>
-      <div><span class="value-box">${getPlayerValue(player)}</span></div>
-      <div class="row-actions">
-        <button class="secondary" onclick="editPlayer(${index})">Edit</button>
-        <button class="danger" onclick="deletePlayer(${index})">Delete</button>
-      </div>
-    `;
-
-    row.addEventListener("dragstart", () => {
-      dragIndex = index;
-      row.classList.add("dragging");
-    });
-
-    row.addEventListener("dragend", () => {
-      row.classList.remove("dragging");
-    });
-
-    row.addEventListener("dragover", (e) => e.preventDefault());
-
-    row.addEventListener("drop", () => {
-      if (dragIndex === null || dragIndex === index) return;
-      const moved = allData[currentMode].splice(dragIndex, 1)[0];
-      allData[currentMode].splice(index, 0, moved);
-      dragIndex = null;
-      saveLocalDraft();
-      renderPlayers();
-    });
-
-    playerList.appendChild(row);
-  });
-}
-
-window.saveFirebaseConfig = function saveFirebaseConfig() {
-  const raw = firebaseConfigBox.value.trim();
-  if (!raw) {
-    alert("Paste Firebase config first.");
-    return;
-  }
-  localStorage.setItem(FIREBASE_CFG_KEY, raw);
-  alert("Firebase config saved.");
-};
-
-function initFirebaseIfPossible() {
-  try {
-    const raw = localStorage.getItem(FIREBASE_CFG_KEY);
-    if (!raw) return false;
-    const config = JSON.parse(raw);
-    app = initializeApp(config, "minetiers-admin-app");
-    db = getFirestore(app);
-    return true;
-  } catch (err) {
-    console.error(err);
-    alert("Firebase config invalid.");
-    return false;
-  }
-}
-
-window.saveToFirebase = async function saveToFirebase() {
-  if (!db && !initFirebaseIfPossible()) return;
-  try {
-    await setDoc(doc(db, "minetiers", "data"), { rankings: allData, updatedAt: Date.now() });
-    alert("Saved to Firebase.");
-  } catch (err) {
-    console.error(err);
-    alert("Firebase save failed.");
-  }
-};
-
-window.loadFromFirebase = async function loadFromFirebase() {
-  if (!db && !initFirebaseIfPossible()) return;
-  try {
-    const snap = await getDoc(doc(db, "minetiers", "data"));
-    if (!snap.exists()) {
-      alert("No Firebase data found.");
-      return;
+});`.trim();
     }
-    const data = snap.data();
-    if (data.rankings) {
-      allData = data.rankings;
-      saveLocalDraft();
-      renderPlayers();
-      alert("Loaded from Firebase.");
+
+    function getPlayerValue(player) {
+      return currentMode === "Overall" ? player.pts : player.tier;
     }
-  } catch (err) {
-    console.error(err);
-    alert("Firebase load failed.");
-  }
-};
 
-window.exportJson = function exportJson() {
-  const blob = new Blob([JSON.stringify(allData, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "rankings.json";
-  a.click();
-  URL.revokeObjectURL(url);
-};
+    function createPlayerObject(name, value, discordId, region) {
+      const base = {
+        name: name.trim(),
+        discordId: discordId.trim(),
+        region: region.trim() || "ASIA / MM"
+      };
 
-function renderSnippet() {
-  mainSiteSnippet.textContent = `
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-
-const firebaseConfig = YOUR_FIREBASE_CONFIG;
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-async function loadRankingsFromFirebase() {
-  const snap = await getDoc(doc(db, "minetiers", "data"));
-  if (snap.exists()) {
-    const remote = snap.data().rankings;
-    Object.assign(allData, remote);
-    renderPlayers();
-  }
-}
-
-loadRankingsFromFirebase();`.trim();
-}
-
-bootAuth();
-
-// =============================
-// NEW FEATURES: PASSWORD, ROLES, BACKUP, AUTO-SAVE, HISTORY, UNDO
-// =============================
-
-let historyStack = [];
-
-function pushHistory() {
-  historyStack.push(JSON.stringify(allData));
-  if (historyStack.length > 20) historyStack.shift();
-}
-
-window.undoLastChange = function undoLastChange() {
-  if (historyStack.length === 0) {
-    alert("Nothing to undo.");
-    return;
-  }
-  const prev = historyStack.pop();
-  allData = JSON.parse(prev);
-  saveLocalDraft();
-  renderPlayers();
-};
-
-// AUTO SAVE every 10 seconds
-setInterval(() => {
-  saveLocalDraft();
-  console.log("Auto-saved.");
-}, 10000);
-
-// BACKUP DATA
-window.backupData = function backupData() {
-  const blob = new Blob([
-    JSON.stringify(allData, null, 2)
-  ], { type: "application/json" });
-
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "minetiers-backup.json";
-  a.click();
-  URL.revokeObjectURL(url);
-};
-
-// RESTORE DATA
-window.restoreData = function restoreData() {
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = "application/json";
-
-  input.onchange = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      try {
-        allData = JSON.parse(reader.result);
-        saveLocalDraft();
-        renderPlayers();
-        alert("Backup restored.");
-      } catch {
-        alert("Invalid backup file.");
+      if (currentMode === "Overall") {
+        return { ...base, pts: Number(value) || 0 };
       }
-    };
+      return { ...base, tier: value.trim() };
+    }
 
-    reader.readAsText(file);
-  };
+    function resetForm() {
+      document.getElementById("playerName").value = "";
+      document.getElementById("playerValue").value = "";
+      document.getElementById("discordId").value = "";
+      document.getElementById("playerRegion").value = "";
+      document.getElementById("editIndex").value = "";
+      formTitle.textContent = "Add Player";
+    }
 
-  input.click();
-};
+    function duplicatePlayer() {
+      const editIndex = document.getElementById("editIndex").value;
+      if (editIndex === "") {
+        alert("Select a player first by clicking Edit.");
+        return;
+      }
 
-// CHANGE PASSWORD
-window.changePassword = function changePassword() {
-  const oldPass = prompt("Enter current password");
-  if (oldPass !== getSavedPassword()) {
-    alert("Wrong password.");
-    return;
-  }
+      const original = allData[currentMode][Number(editIndex)];
+      if (!original) return;
 
-  const newPass = prompt("Enter new password");
-  if (!newPass) return;
+      const copy = structuredCloneSafe(original);
+      copy.name = `${copy.name}_copy`;
+      allData[currentMode].push(copy);
+      renderPlayers();
+      resetForm();
+    }
 
-  localStorage.setItem(PASSWORD_KEY, newPass);
-  alert("Password changed successfully.");
-};
+    function savePlayer() {
+      const name = document.getElementById("playerName").value.trim();
+      const value = document.getElementById("playerValue").value.trim();
+      const discordId = document.getElementById("discordId").value.trim();
+      const region = document.getElementById("playerRegion").value.trim();
+      const editIndex = document.getElementById("editIndex").value;
 
-// MULTIPLE ADMINS + ROLES
-let admins = JSON.parse(localStorage.getItem("minetiers_admin_roles")) || [
-  { username: "admin", role: "admin" }
-];
+      if (!name || !value) {
+        alert("Fill player name and points/tier.");
+        return;
+      }
 
-window.addAdmin = function addAdmin() {
-  const username = prompt("Enter admin username");
-  const role = prompt("Role: admin or moderator");
+      allData[currentMode] ||= [];
+      const obj = createPlayerObject(name, value, discordId, region);
 
-  if (!username || !role) return;
+      if (editIndex !== "") {
+        allData[currentMode][Number(editIndex)] = obj;
+      } else {
+        allData[currentMode].push(obj);
+      }
 
-  admins.push({ username, role });
+      renderPlayers();
+      resetForm();
+    }
 
-  localStorage.setItem(
-    "minetiers_admin_roles",
-    JSON.stringify(admins)
-  );
+    function editPlayer(index) {
+      const player = getFilteredPlayers({ rawIndexMode: true })[index];
+      if (!player) return;
 
-  alert("Admin added.");
-};
-changeMode();
-</script>
+      const rawIndex = player.rawIndex;
+      const p = allData[currentMode][rawIndex];
+
+      document.getElementById("playerName").value = p.name || "";
+      document.getElementById("playerValue").value = getPlayerValue(p) || "";
+      document.getElementById("discordId").value = p.discordId || "";
+      document.getElementById("playerRegion").value = p.region || "";
+      document.getElementById("editIndex").value = rawIndex;
+      formTitle.textContent = "Edit Player";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function deletePlayer(index) {
+      const player = getFilteredPlayers({ rawIndexMode: true })[index];
+      if (!player) return;
+
+      const rawIndex = player.rawIndex;
+      if (!confirm("Delete this player?")) return;
+
+      allData[currentMode].splice(rawIndex, 1);
+      renderPlayers();
+    }
+
+    function changeMode() {
+      currentMode = modeSelect.value;
+      currentModeLabel.textContent = currentMode;
+      resetForm();
+      renderPlayers();
+    }
+
+    function getFilteredPlayers({ rawIndexMode = false } = {}) {
+      const queryText = document.getElementById("searchInput").value.trim().toLowerCase();
+      const sortValue = document.getElementById("sortSelect").value;
+      let players = (allData[currentMode] || []).map((player, index) => ({ ...player, rawIndex: index }));
+
+      if (queryText) {
+        players = players.filter(player =>
+          String(player.name).toLowerCase().includes(queryText) ||
+          String(player.discordId || "").toLowerCase().includes(queryText)
+        );
+      }
+
+      if (sortValue === "name-asc") {
+        players.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (sortValue === "name-desc") {
+        players.sort((a, b) => b.name.localeCompare(a.name));
+      }
+
+      return rawIndexMode ? players : players.map(({ rawIndex, ...rest }) => rest);
+    }
+
+    function renderPlayers() {
+      currentModeLabel.textContent = currentMode;
+      playerList.innerHTML = "";
+
+      const players = getFilteredPlayers({ rawIndexMode: true });
+      const manualSort = document.getElementById("sortSelect").value === "manual";
+
+      if (!players.length) {
+        playerList.innerHTML = `<div class="notice">No players found in this mode.</div>`;
+        renderStats();
+        return;
+      }
+
+      players.forEach((player, index) => {
+        const row = document.createElement("div");
+        row.className = "player-row";
+        row.draggable = manualSort;
+        row.dataset.index = player.rawIndex;
+
+        row.innerHTML = `
+          <div class="rank-no">${index + 1}</div>
+          <div class="player-main">
+            <div class="player-name">${escapeHtml(player.name)}</div>
+            <div class="player-meta">Region: ${escapeHtml(player.region || "ASIA / MM")}</div>
+          </div>
+          <div><span class="value-box">${escapeHtml(getPlayerValue(player))}</span></div>
+          <div class="player-meta">${escapeHtml(player.discordId || "Not added")}</div>
+          <div class="row-actions">
+            <button class="secondary" onclick="window.editPlayer(${index})">Edit</button>
+            <button class="danger" onclick="window.deletePlayer(${index})">Delete</button>
+          </div>
+        `;
+
+        if (manualSort) {
+          row.addEventListener("dragstart", () => {
+            dragIndex = Number(row.dataset.index);
+            row.classList.add("dragging");
+          });
+
+          row.addEventListener("dragend", () => {
+            row.classList.remove("dragging");
+          });
+
+          row.addEventListener("dragover", (e) => e.preventDefault());
+
+          row.addEventListener("drop", () => {
+            const targetIndex = Number(row.dataset.index);
+            if (dragIndex === null || dragIndex === targetIndex) return;
+
+            const moved = allData[currentMode].splice(dragIndex, 1)[0];
+            allData[currentMode].splice(targetIndex, 0, moved);
+            dragIndex = null;
+            renderPlayers();
+          });
+        }
+
+        playerList.appendChild(row);
+      });
+
+      renderStats();
+    }
+
+    async function logAction(action, detail = {}) {
+      if (!currentUser) return;
+
+      try {
+        await addDoc(collection(db, "logs"), {
+          action,
+          detail,
+          adminUid: currentUser.uid,
+          adminEmail: currentUser.email || "",
+          createdAt: serverTimestamp()
+        });
+      } catch (err) {
+        console.error("log error", err);
+      }
+    }
+
+    async function resolveEmailFromIdentifier(identifier) {
+      const text = identifier.trim();
+      if (!text) throw new Error("Please enter email or username.");
+
+      if (text.includes("@")) return text;
+
+      const ref = doc(db, "usernames", text.toLowerCase());
+      const snap = await getDoc(ref);
+      if (!snap.exists()) {
+        throw new Error("Username not found.");
+      }
+      return snap.data().email;
+    }
+
+    async function loadCurrentAdmin(uid) {
+      const snap = await getDoc(doc(db, "adminUsers", uid));
+      if (!snap.exists()) throw new Error("No admin profile found for this user.");
+      const data = snap.data();
+
+      if (data.status !== "active") {
+        throw new Error("This admin account is disabled.");
+      }
+
+      currentAdmin = { uid, ...data };
+      document.getElementById("statRole").textContent = currentAdmin.role || "-";
+    }
+
+    async function loginAdmin() {
+      const identifier = document.getElementById("loginIdentifier").value.trim();
+      const password = document.getElementById("loginPassword").value;
+
+      if (!identifier || !password) {
+        alert("Fill identifier and password.");
+        return;
+      }
+
+      try {
+        const email = await resolveEmailFromIdentifier(identifier);
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (err) {
+        console.error(err);
+        alert(err.message || "Login failed.");
+      }
+    }
+
+    async function logoutAdmin() {
+      await signOut(auth);
+    }
+
+    async function sendResetEmail() {
+      const identifier = document.getElementById("loginIdentifier").value.trim();
+
+      if (!identifier) {
+        alert("Enter your email or username first.");
+        return;
+      }
+
+      try {
+        const email = await resolveEmailFromIdentifier(identifier);
+        await sendPasswordResetEmail(auth, email);
+        alert("Password reset email sent.");
+      } catch (err) {
+        console.error(err);
+        alert(err.message || "Could not send reset email.");
+      }
+    }
+
+    async function changeMyPassword() {
+      if (!auth.currentUser) return;
+
+      const newPassword = prompt("Enter new password");
+      if (!newPassword) return;
+      if (newPassword.length < 6) {
+        alert("Password must be at least 6 characters.");
+        return;
+      }
+
+      try {
+        await updatePassword(auth.currentUser, newPassword);
+        await logAction("change_password", {});
+        alert("Password updated.");
+      } catch (err) {
+        console.error(err);
+        alert("Failed to change password. You may need to log in again.");
+      }
+    }
+
+    async function saveToFirebase() {
+      if (!currentAdmin) return;
+
+      const payload = {
+        rankings: ensureModes(structuredCloneSafe(allData)),
+        updatedAt: serverTimestamp(),
+        updatedByUid: currentUser.uid,
+        updatedByEmail: currentUser.email || ""
+      };
+
+      try {
+        await setDoc(doc(db, "leaderboards", "main"), payload, { merge: true });
+        lastLoadedRemote = { updatedAtText: nowText() };
+        renderStats();
+        await logAction("save_leaderboard", { mode: currentMode });
+        alert("Saved to Firebase.");
+      } catch (err) {
+        console.error(err);
+        alert("Save failed.");
+      }
+    }
+
+    async function loadFromFirebase() {
+      try {
+        const snap = await getDoc(doc(db, "leaderboards", "main"));
+
+        if (!snap.exists()) {
+          allData = structuredClone(starterData);
+          renderPlayers();
+          return;
+        }
+
+        const data = snap.data();
+        allData = ensureModes(data.rankings || structuredClone(starterData));
+
+        const updatedAt = data.updatedAt?.toDate ? data.updatedAt.toDate() : null;
+        lastLoadedRemote = {
+          updatedAtText: updatedAt ? updatedAt.toLocaleString() : "Loaded"
+        };
+
+        renderPlayers();
+      } catch (err) {
+        console.error(err);
+        alert("Load failed.");
+      }
+    }
+
+    function exportJson() {
+      const blob = new Blob([JSON.stringify(allData, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "minetiers-rankings.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function importJson() {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "application/json";
+
+      input.onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const parsed = JSON.parse(reader.result);
+            allData = ensureModes(parsed);
+            renderPlayers();
+            alert("JSON imported.");
+          } catch (err) {
+            console.error(err);
+            alert("Invalid JSON file.");
+          }
+        };
+        reader.readAsText(file);
+      };
+
+      input.click();
+    }
+
+    async function saveAdminUser() {
+      if (!currentAdmin || !["superadmin", "admin"].includes(currentAdmin.role)) {
+        alert("You do not have permission.");
+        return;
+      }
+
+      const uid = document.getElementById("adminUid").value.trim();
+      const displayName = document.getElementById("adminDisplayName").value.trim();
+      const username = document.getElementById("adminUsername").value.trim();
+      const email = document.getElementById("adminEmail").value.trim();
+      const role = document.getElementById("adminRole").value;
+      const status = document.getElementById("adminStatus").value;
+
+      if (!uid || !displayName || !username || !email) {
+        alert("Fill all admin user fields.");
+        return;
+      }
+
+      try {
+        await setDoc(doc(db, "adminUsers", uid), {
+          displayName,
+          username,
+          usernameLower: username.toLowerCase(),
+          email,
+          role,
+          status
+        }, { merge: true });
+
+        await setDoc(doc(db, "usernames", username.toLowerCase()), {
+          uid,
+          email
+        }, { merge: true });
+
+        await logAction("save_admin_user", { uid, email, role, status });
+        await loadAdminUsers();
+        alert("Admin user saved.");
+      } catch (err) {
+        console.error(err);
+        alert("Failed to save admin user.");
+      }
+    }
+
+    async function loadAdminUsers() {
+      const box = document.getElementById("adminUsersList");
+      box.innerHTML = `<div class="notice">Loading admin users...</div>`;
+
+      try {
+        const snap = await getDocs(collection(db, "adminUsers"));
+        const items = [];
+        snap.forEach(docSnap => {
+          const data = docSnap.data();
+          items.push({ id: docSnap.id, ...data });
+        });
+
+        if (!items.length) {
+          box.innerHTML = `<div class="notice">No admin users found.</div>`;
+          return;
+        }
+
+        box.innerHTML = items.map(item => `
+          <div class="log-item">
+            <strong>${escapeHtml(item.displayName || item.username || item.email)}</strong>
+            <span>UID: ${escapeHtml(item.id)}</span><br>
+            <span>Username: ${escapeHtml(item.username || "-")}</span><br>
+            <span>Email: ${escapeHtml(item.email || "-")}</span><br>
+            <span>Role: ${escapeHtml(item.role || "-")} · Status: ${escapeHtml(item.status || "-")}</span>
+          </div>
+        `).join("");
+      } catch (err) {
+        console.error(err);
+        box.innerHTML = `<div class="notice">Failed to load admin users.</div>`;
+      }
+    }
+
+    async function loadLogs() {
+      const box = document.getElementById("logList");
+      box.innerHTML = `<div class="notice">Loading logs...</div>`;
+
+      try {
+        const q = query(collection(db, "logs"), orderBy("createdAt", "desc"), limit(20));
+        const snap = await getDocs(q);
+
+        const items = [];
+        snap.forEach(docSnap => {
+          const data = docSnap.data();
+          const date = data.createdAt?.toDate ? data.createdAt.toDate().toLocaleString() : "Unknown time";
+          items.push({ id: docSnap.id, ...data, date });
+        });
+
+        if (!items.length) {
+          box.innerHTML = `<div class="notice">No logs yet.</div>`;
+          return;
+        }
+
+        box.innerHTML = items.map(item => `
+          <div class="log-item">
+            <strong>${escapeHtml(item.action)}</strong>
+            <span>${escapeHtml(item.adminEmail || item.adminUid || "-")}</span><br>
+            <span>${escapeHtml(item.date)}</span><br>
+            <span>${escapeHtml(JSON.stringify(item.detail || {}))}</span>
+          </div>
+        `).join("");
+      } catch (err) {
+        console.error(err);
+        box.innerHTML = `<div class="notice">Failed to load logs.</div>`;
+      }
+    }
+
+    // expose to inline onclick
+    window.loginAdmin = loginAdmin;
+    window.logoutAdmin = logoutAdmin;
+    window.sendResetEmail = sendResetEmail;
+    window.changeMyPassword = changeMyPassword;
+    window.saveToFirebase = saveToFirebase;
+    window.loadFromFirebase = loadFromFirebase;
+    window.exportJson = exportJson;
+    window.importJson = importJson;
+    window.changeMode = changeMode;
+    window.savePlayer = savePlayer;
+    window.resetForm = resetForm;
+    window.duplicatePlayer = duplicatePlayer;
+    window.editPlayer = editPlayer;
+    window.deletePlayer = deletePlayer;
+    window.saveAdminUser = saveAdminUser;
+    window.loadAdminUsers = loadAdminUsers;
+    window.loadLogs = loadLogs;
+
+    initFirebase();
+    renderSnippet();
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        currentUser = null;
+        currentAdmin = null;
+        document.getElementById("adminApp").classList.add("hidden");
+        document.getElementById("loginScreen").classList.remove("hidden");
+        return;
+      }
+
+      try {
+        currentUser = user;
+        await loadCurrentAdmin(user.uid);
+
+        document.getElementById("loginScreen").classList.add("hidden");
+        document.getElementById("adminApp").classList.remove("hidden");
+
+        await loadFromFirebase();
+        await loadAdminUsers();
+        await loadLogs();
+      } catch (err) {
+        console.error(err);
+        alert(err.message || "Admin access denied.");
+        await signOut(auth);
+      }
+    });
+  </script>
 </body>
 </html>

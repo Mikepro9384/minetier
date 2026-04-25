@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel Pro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a1020;
+      --bg-2: #0f172a;
+      --panel: rgba(15, 23, 42, 0.88);
+      --panel-2: rgba(20, 30, 52, 0.95);
+      --line: rgba(255, 255, 255, 0.08);
+      --text: #eef4ff;
+      --muted: #96a4bf;
+      --primary: #5b8cff;
+      --primary-2: #3268f3;
+      --success: #16c47f;
+      --warning: #f7b955;
+      --danger: #ff5c78;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      --radius-xl: 28px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(91, 140, 255, 0.18), transparent 24%),
+        radial-gradient(circle at right top, rgba(22, 196, 127, 0.12), transparent 20%),
+        linear-gradient(180deg, #070b15 0%, #0b1220 100%);
+      min-height: 100vh;
+    }
+
+    .hidden { display: none !important; }
+    .container { width: min(1320px, calc(100% - 32px)); margin: 0 auto; }
+
+    .auth-shell {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .auth-card,
+    .card,
+    .table-wrap,
+    .modal-box {
+      background: var(--panel);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .auth-card {
+      width: min(460px, 100%);
+      border-radius: var(--radius-xl);
+      padding: 30px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(91, 140, 255, 0.14);
+      color: #b7cbff;
+      border: 1px solid rgba(91, 140, 255, 0.22);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .brand {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      margin: 0 0 10px;
+    }
+    .brand span { color: var(--primary); }
+    .sub { color: var(--muted); line-height: 1.7; margin: 0 0 20px; }
+
+    .grid-2,
+    .grid-3,
+    .toolbar,
+    .stats-grid,
+    .main-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #c8d4ea;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(5, 10, 20, 0.7);
+      color: white;
+      padding: 13px 14px;
+      outline: none;
+      transition: 0.2s ease;
+      font: inherit;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(91, 140, 255, 0.6);
+      box-shadow: 0 0 0 4px rgba(91, 140, 255, 0.12);
+    }
+
+    textarea { resize: vertical; min-height: 120px; }
+
+    .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    button, .btn {
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-weight: 800;
+      cursor: pointer;
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      transition: 0.2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    button:hover, .btn:hover { transform: translateY(-1px); }
+    .secondary { background: rgba(255,255,255,0.08); }
+    .success { background: linear-gradient(135deg, #18c884, #0f9d66); }
+    .warning { background: linear-gradient(135deg, #ffc461, #f59f0b); color: #1a1407; }
+    .danger { background: linear-gradient(135deg, #ff7088, #e63356); }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: rgba(7, 11, 21, 0.75);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar-inner {
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .user-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      color: #dbe6fa;
+      font-weight: 700;
+    }
+
+    .shell { padding: 24px 0 40px; }
+    .stats-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 18px; }
+
+    .stat-card, .card {
+      border-radius: 22px;
+      padding: 22px;
+    }
+
+    .stat-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .stat-card span {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+    .stat-card strong {
+      font-size: 1.9rem;
+      letter-spacing: -0.03em;
+    }
+
+    .main-grid { grid-template-columns: 390px 1fr; align-items: start; }
+    .panel-title { margin: 0 0 8px; font-size: 1.35rem; font-weight: 900; }
+    .small { color: var(--muted); font-size: 0.92rem; line-height: 1.65; }
+
+    .toolbar {
+      grid-template-columns: 1.4fr 1fr 1fr;
+      margin-bottom: 18px;
+    }
+
+    .table-wrap {
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead th {
+      text-align: left;
+      font-size: 0.78rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 16px 18px;
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid var(--line);
+    }
+
+    tbody td {
+      padding: 16px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      vertical-align: top;
+    }
+
+    tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+    .role-pill, .status-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      border: 1px solid transparent;
+    }
+
+    .role-admin { background: rgba(91,140,255,0.14); color: #b7cbff; border-color: rgba(91,140,255,0.24); }
+    .role-manager { background: rgba(22,196,127,0.14); color: #9ff0ca; border-color: rgba(22,196,127,0.24); }
+    .role-staff { background: rgba(247,185,85,0.14); color: #ffd994; border-color: rgba(247,185,85,0.24); }
+    .status-active { background: rgba(22,196,127,0.14); color: #aaf3d0; }
+    .status-disabled { background: rgba(255,92,120,0.12); color: #ffb0bf; }
+
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .actions button { padding: 10px 12px; font-size: 0.85rem; }
+
+    .notice {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .log-box {
+      max-height: 280px;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .log-item {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      line-height: 1.55;
+    }
+
+    .log-item small { display: block; color: var(--muted); margin-top: 5px; }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      display: none;
+      place-items: center;
+      padding: 20px;
+      z-index: 50;
+      backdrop-filter: blur(8px);
+    }
+
+    .modal.show { display: grid; }
+
+    .modal-box {
+      width: min(560px, 100%);
+      border-radius: 24px;
+      padding: 24px;
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .muted-link { color: #c3d6ff; text-decoration: underline; cursor: pointer; }
+
+    .empty {
+      padding: 28px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    @media (max-width: 1100px) {
+      .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .main-grid { grid-template-columns: 1fr; }
+      .toolbar { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 700px) {
+      .grid-2, .grid-3, .stats-grid { grid-template-columns: 1fr; }
+      .container { width: min(1320px, calc(100% - 20px)); }
+      .auth-card, .card, .stat-card, .modal-box { padding: 18px; }
+      table, thead, tbody, th, td, tr { display: block; }
+      thead { display: none; }
+      tbody tr { border-bottom: 1px solid var(--line); }
+      tbody td { padding: 10px 16px; }
+      tbody td::before {
+        content: attr(data-label);
+        display: block;
+        font-size: 0.74rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section id="authView" class="auth-shell">
+    <div class="auth-card">
+      <div class="badge">Secure Admin Access</div>
+      <h1 class="brand">ADMIN<span>PANEL</span></h1>
+      <p class="sub">Login with username and password. This demo stores data in your browser localStorage so you can test everything instantly.</p>
+
+      <div class="grid-2">
+        <div>
+          <label for="loginUsername">Username</label>
+          <input id="loginUsername" placeholder="Enter username" autocomplete="username">
+        </div>
+        <div>
+          <label for="loginPassword">Password</label>
+          <input id="loginPassword" type="password" placeholder="Enter password" autocomplete="current-password">
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-top:16px;">
+        <button onclick="login()">Login</button>
+        <button class="secondary" onclick="seedDefaults(true)">Reset Demo Data</button>
+      </div>
+
+      <div class="notice">
+        Default admin login: <strong>admin</strong> / <strong>Admin@123</strong><br>
+        After login you can change password, add admins, disable accounts, export data, restore backup, and manage users.
+      </div>
+      <div id="authMessage" class="notice hidden"></div>
+    </div>
+  </section>
+
+  <section id="appView" class="hidden">
+    <div class="topbar">
+      <div class="container topbar-inner">
+        <div>
+          <div class="badge" style="margin-bottom:8px;">Management Dashboard</div>
+          <div class="brand" style="font-size:1.8rem; margin:0;">ADMIN<span>PANEL</span></div>
+        </div>
+        <div class="btn-row">
+          <div class="user-chip" id="currentUserChip">Logged in</div>
+          <button class="secondary" onclick="openModal('passwordModal')">Change Password</button>
+          <button class="secondary" onclick="openModal('adminModal')">Add Admin</button>
+          <button class="warning" onclick="exportBackup()">Export Backup</button>
+          <button class="secondary" onclick="triggerImport()">Import</button>
+          <button class="danger" onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="shell container">
+      <div class="stats-grid">
+        <div class="stat-card"><span>Total Accounts</span><strong id="statUsers">0</strong></div>
+        <div class="stat-card"><span>Admins</span><strong id="statAdmins">0</strong></div>
+        <div class="stat-card"><span>Active Accounts</span><strong id="statActive">0</strong></div>
+        <div class="stat-card"><span>Audit Logs</span><strong id="statLogs">0</strong></div>
+      </div>
+
+      <div class="toolbar">
+        <div class="card">
+          <h3 class="panel-title">Search & Filter</h3>
+          <div class="grid-2">
+            <div>
+              <label for="searchInput">Search</label>
+              <input id="searchInput" placeholder="Search username, email, name" oninput="renderUsers()">
+            </div>
+            <div>
+              <label for="roleFilter">Role</label>
+              <select id="roleFilter" onchange="renderUsers()">
+                <option value="all">All Roles</option>
+                <option value="admin">Admin</option>
+                <option value="manager">Manager</option>
+                <option value="staff">Staff</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="panel-title">Quick Actions</h3>
+          <div class="btn-row">
+            <button onclick="resetUserForm()">New Account</button>
+            <button class="secondary" onclick="seedSampleUsers()">Add Sample Users</button>
+            <button class="secondary" onclick="clearLogs()">Clear Logs</button>
+          </div>
+          <div class="notice">Use the form to create admins, managers, or staff users. Username must be unique.</div>
+        </div>
+
+        <div class="card">
+          <h3 class="panel-title">System Status</h3>
+          <p class="small">Storage mode: browser localStorage</p>
+          <p class="small">Last backup capable: yes</p>
+          <p class="small">Password change: enabled</p>
+          <p class="small">Role-based permissions: enabled</p>
+        </div>
+      </div>
+
+      <div class="main-grid">
+        <div class="card">
+          <h3 class="panel-title" id="formTitle">Create Account</h3>
+          <p class="small">Create or edit accounts. Admin users can manage everything. Managers and staff are limited in this demo UI.</p>
+
+          <input id="editingId" type="hidden">
+
+          <label for="fullName">Full Name</label>
+          <input id="fullName" placeholder="Full name">
+
+          <div class="grid-2">
+            <div>
+              <label for="username">Username</label>
+              <input id="username" placeholder="Unique username">
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input id="email" type="email" placeholder="Email address">
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <label for="password">Password</label>
+              <input id="password" type="password" placeholder="Create password">
+            </div>
+            <div>
+              <label for="role">Role</label>
+              <select id="role">
+                <option value="staff">Staff</option>
+                <option value="manager">Manager</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+          </div>
+
+          <label for="notes">Notes</label>
+          <textarea id="notes" placeholder="Optional notes"></textarea>
+
+          <div class="btn-row">
+            <button onclick="saveUser()">Save Account</button>
+            <button class="secondary" onclick="resetUserForm()">Clear</button>
+          </div>
+
+          <div id="formMessage" class="notice hidden"></div>
+        </div>
+
+        <div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="userTableBody"></tbody>
+            </table>
+            <div id="emptyState" class="empty hidden">No users found.</div>
+          </div>
+
+          <div class="card" style="margin-top:18px;">
+            <h3 class="panel-title">Audit Logs</h3>
+            <p class="small">Every important action is logged: login, logout, create, edit, disable, enable, delete, and password changes.</p>
+            <div id="logBox" class="log-box"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="modal" id="passwordModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 class="panel-title" style="margin:0;">Change Password</h3>
+        <button class="secondary" onclick="closeModal('passwordModal')">Close</button>
+      </div>
+      <div class="grid-2">
+        <div>
+          <label for="oldPassword">Current Password</label>
+          <input id="oldPassword" type="password" placeholder="Current password">
+        </div>
+        <div>
+          <label for="newPassword">New Password</label>
+          <input id="newPassword" type="password" placeholder="New password">
+        </div>
+      </div>
+      <label for="confirmPassword">Confirm New Password</label>
+      <input id="confirmPassword" type="password" placeholder="Confirm new password">
+      <div class="btn-row" style="margin-top:16px;">
+        <button onclick="changePassword()">Update Password</button>
+      </div>
+      <div class="notice">Use at least 6 characters for demo security.</div>
+    </div>
+  </div>
+
+  <div class="modal" id="adminModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 class="panel-title" style="margin:0;">Quick Add Admin</h3>
+        <button class="secondary" onclick="closeModal('adminModal')">Close</button>
+      </div>
+      <div class="grid-2">
+        <div>
+          <label for="adminFullName">Full Name</label>
+          <input id="adminFullName" placeholder="Admin full name">
+        </div>
+        <div>
+          <label for="adminUsername">Username</label>
+          <input id="adminUsername" placeholder="Unique username">
+        </div>
+      </div>
+      <div class="grid-2">
+        <div>
+          <label for="adminEmail">Email</label>
+          <input id="adminEmail" type="email" placeholder="Admin email">
+        </div>
+        <div>
+          <label for="adminPasswordInput">Password</label>
+          <input id="adminPasswordInput" type="password" placeholder="Admin password">
+        </div>
+      </div>
+      <div class="btn-row" style="margin-top:16px;">
+        <button onclick="quickAddAdmin()">Create Admin</button>
+      </div>
+    </div>
+  </div>
+
+  <input type="file" id="importInput" accept="application/json" class="hidden">
+
+  <script>
+    const STORAGE_KEY = 'full_admin_panel_v1';
+    const SESSION_KEY = 'full_admin_panel_session_v1';
+
+    const initialData = {
+      users: [
+        {
+          id: crypto.randomUUID(),
+          fullName: 'System Administrator',
+          username: 'admin',
+          email: 'admin@example.com',
+          password: 'Admin@123',
+          role: 'admin',
+          status: 'active',
+          notes: 'Default super admin account',
+          createdAt: Date.now()
+        }
+      ],
+      logs: []
+    };
+
+    let state = loadState();
+    let currentUser = loadSession();
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (saved && Array.isArray(saved.users) && Array.isArray(saved.logs)) return saved;
+      } catch (e) {}
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(initialData));
+      return structuredClone(initialData);
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function loadSession() {
+      try { return JSON.parse(localStorage.getItem(SESSION_KEY)); } catch (e) { return null; }
+    }
+
+    function saveSession() {
+      localStorage.setItem(SESSION_KEY, JSON.stringify(currentUser));
+    }
+
+    function clearSession() {
+      localStorage.removeItem(SESSION_KEY);
+      currentUser = null;
+    }
+
+    function seedDefaults(showMsg = false) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(initialData));
+      clearSession();
+      state = loadState();
+      document.getElementById('loginUsername').value = 'admin';
+      document.getElementById('loginPassword').value = 'Admin@123';
+      if (showMsg) showAuthMessage('Demo data has been reset.', false);
+      boot();
+    }
+
+    function showAuthMessage(message, isError = true) {
+      const box = document.getElementById('authMessage');
+      box.classList.remove('hidden');
+      box.style.color = isError ? '#ffb6c4' : '#b8f2d7';
+      box.textContent = message;
+    }
+
+    function showFormMessage(message, isError = false) {
+      const box = document.getElementById('formMessage');
+      box.classList.remove('hidden');
+      box.style.color = isError ? '#ffb6c4' : '#b8f2d7';
+      box.textContent = message;
+      setTimeout(() => box.classList.add('hidden'), 2500);
+    }
+
+    function logAction(action, detail) {
+      const actor = currentUser?.username || 'system';
+      state.logs.unshift({ id: crypto.randomUUID(), action, detail, actor, time: Date.now() });
+      state.logs = state.logs.slice(0, 100);
+      saveState();
+    }
+
+    function requireAdmin() {
+      return currentUser && currentUser.role === 'admin';
+    }
+
+    function login() {
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const user = state.users.find(u => u.username === username && u.password === password);
+
+      if (!user) {
+        showAuthMessage('Invalid username or password.');
+        return;
+      }
+      if (user.status === 'disabled') {
+        showAuthMessage('This account is disabled. Contact an administrator.');
+        return;
+      }
+
+      currentUser = { id: user.id, username: user.username, role: user.role, fullName: user.fullName };
+      saveSession();
+      logAction('login', username + ' logged in');
+      boot();
+    }
+
+    function logout() {
+      if (currentUser) logAction('logout', currentUser.username + ' logged out');
+      clearSession();
+      boot();
+    }
+
+    function formatDate(ts) {
+      return new Date(ts).toLocaleString();
+    }
+
+    function escapeHtml(str) {
+      return String(str || '').replace(/[&<>"']/g, s => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[s]));
+    }
+
+    function roleClass(role) {
+      return 'role-' + role;
+    }
+
+    function renderStats() {
+      document.getElementById('statUsers').textContent = state.users.length;
+      document.getElementById('statAdmins').textContent = state.users.filter(u => u.role === 'admin').length;
+      document.getElementById('statActive').textContent = state.users.filter(u => u.status === 'active').length;
+      document.getElementById('statLogs').textContent = state.logs.length;
+    }
+
+    function renderLogs() {
+      const box = document.getElementById('logBox');
+      if (!state.logs.length) {
+        box.innerHTML = '<div class="empty">No logs yet.</div>';
+        return;
+      }
+      box.innerHTML = state.logs.map(log => `
+        <div class="log-item">
+          <strong>${escapeHtml(log.action)}</strong> — ${escapeHtml(log.detail)}
+          <small>by ${escapeHtml(log.actor)} • ${formatDate(log.time)}</small>
+        </div>
+      `).join('');
+    }
+
+    function getFilteredUsers() {
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+      const role = document.getElementById('roleFilter').value;
+      return state.users.filter(user => {
+        const matchesRole = role === 'all' || user.role === role;
+        const hay = [user.fullName, user.username, user.email].join(' ').toLowerCase();
+        const matchesQ = !q || hay.includes(q);
+        return matchesRole && matchesQ;
+      });
+    }
+
+    function renderUsers() {
+      const tbody = document.getElementById('userTableBody');
+      const rows = getFilteredUsers();
+      document.getElementById('emptyState').classList.toggle('hidden', rows.length > 0);
+      tbody.innerHTML = rows.map(user => `
+        <tr>
+          <td data-label="User">
+            <strong>${escapeHtml(user.fullName)}</strong><br>
+            <span class="small">@${escapeHtml(user.username)} · ${escapeHtml(user.email || '-')}</span>
+          </td>
+          <td data-label="Role"><span class="role-pill ${roleClass(user.role)}">${escapeHtml(user.role)}</span></td>
+          <td data-label="Status"><span class="status-pill status-${user.status}">${escapeHtml(user.status)}</span></td>
+          <td data-label="Created">${formatDate(user.createdAt)}</td>
+          <td data-label="Actions">
+            <div class="actions">
+              <button class="secondary" onclick="editUser('${user.id}')">Edit</button>
+              <button class="secondary" onclick="toggleStatus('${user.id}')">${user.status === 'active' ? 'Disable' : 'Enable'}</button>
+              <button class="warning" onclick="resetPassword('${user.id}')">Reset Pass</button>
+              <button class="danger" onclick="deleteUser('${user.id}')">Delete</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function resetUserForm() {
+      document.getElementById('editingId').value = '';
+      document.getElementById('formTitle').textContent = 'Create Account';
+      document.getElementById('fullName').value = '';
+      document.getElementById('username').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('password').value = '';
+      document.getElementById('role').value = 'staff';
+      document.getElementById('notes').value = '';
+    }
+
+    function validatePassword(password) {
+      return password && password.length >= 6;
+    }
+
+    function saveUser() {
+      if (!requireAdmin()) return alert('Only admin can manage accounts.');
+
+      const id = document.getElementById('editingId').value;
+      const fullName = document.getElementById('fullName').value.trim();
+      const username = document.getElementById('username').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const role = document.getElementById('role').value;
+      const notes = document.getElementById('notes').value.trim();
+
+      if (!fullName || !username || !email) return showFormMessage('Fill full name, username, and email.', true);
+
+      const duplicate = state.users.find(u => u.username === username && u.id !== id);
+      if (duplicate) return showFormMessage('Username already exists.', true);
+
+      if (!id && !validatePassword(password)) return showFormMessage('Password must be at least 6 characters.', true);
+
+      if (id) {
+        const user = state.users.find(u => u.id === id);
+        if (!user) return;
+        user.fullName = fullName;
+        user.username = username;
+        user.email = email;
+        user.role = role;
+        user.notes = notes;
+        if (password) {
+          if (!validatePassword(password)) return showFormMessage('New password must be at least 6 characters.', true);
+          user.password = password;
+        }
+        logAction('update-user', 'Updated user ' + username);
+        showFormMessage('User updated successfully.');
+      } else {
+        state.users.push({
+          id: crypto.randomUUID(),
+          fullName,
+          username,
+          email,
+          password,
+          role,
+          status: 'active',
+          notes,
+          createdAt: Date.now()
+        });
+        logAction('create-user', 'Created user ' + username + ' (' + role + ')');
+        showFormMessage('User created successfully.');
+      }
+
+      saveState();
+      resetUserForm();
+      rerender();
+    }
+
+    function editUser(id) {
+      if (!requireAdmin()) return alert('Only admin can edit accounts.');
+      const user = state.users.find(u => u.id === id);
+      if (!user) return;
+      document.getElementById('editingId').value = user.id;
+      document.getElementById('formTitle').textContent = 'Edit Account';
+      document.getElementById('fullName').value = user.fullName;
+      document.getElementById('username').value = user.username;
+      document.getElementById('email').value = user.email;
+      document.getElementById('password').value = '';
+      document.getElementById('role').value = user.role;
+      document.getElementById('notes').value = user.notes || '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleStatus(id) {
+      if (!requireAdmin()) return alert('Only admin can change status.');
+      const user = state.users.find(u => u.id === id);
+      if (!user) return;
+      if (user.username === currentUser.username && user.status === 'active') {
+        return alert('You cannot disable your own active session.');
+      }
+      user.status = user.status === 'active' ? 'disabled' : 'active';
+      logAction('toggle-status', user.username + ' is now ' + user.status);
+      saveState();
+      rerender();
+    }
+
+    function deleteUser(id) {
+      if (!requireAdmin()) return alert('Only admin can delete accounts.');
+      const user = state.users.find(u => u.id === id);
+      if (!user) return;
+      if (user.username === currentUser.username) return alert('You cannot delete your own account.');
+      if (!confirm('Delete ' + user.username + '?')) return;
+      state.users = state.users.filter(u => u.id !== id);
+      logAction('delete-user', 'Deleted user ' + user.username);
+      saveState();
+      rerender();
+    }
+
+    function resetPassword(id) {
+      if (!requireAdmin()) return alert('Only admin can reset passwords.');
+      const user = state.users.find(u => u.id === id);
+      if (!user) return;
+      const pass = prompt('Enter new password for ' + user.username);
+      if (!validatePassword(pass)) return alert('Password must be at least 6 characters.');
+      user.password = pass;
+      logAction('reset-password', 'Reset password for ' + user.username);
+      saveState();
+      rerender();
+      alert('Password updated.');
+    }
+
+    function openModal(id) {
+      if (id === 'adminModal' && !requireAdmin()) return alert('Only admin can add admins.');
+      document.getElementById(id).classList.add('show');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('show');
+    }
+
+    function changePassword() {
+      const user = state.users.find(u => u.id === currentUser.id);
+      if (!user) return;
+      const oldPassword = document.getElementById('oldPassword').value;
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      if (oldPassword !== user.password) return alert('Current password is incorrect.');
+      if (!validatePassword(newPassword)) return alert('New password must be at least 6 characters.');
+      if (newPassword !== confirmPassword) return alert('Passwords do not match.');
+
+      user.password = newPassword;
+      logAction('change-password', user.username + ' changed password');
+      saveState();
+      closeModal('passwordModal');
+      document.getElementById('oldPassword').value = '';
+      document.getElementById('newPassword').value = '';
+      document.getElementById('confirmPassword').value = '';
+      rerender();
+      alert('Password changed successfully.');
+    }
+
+    function quickAddAdmin() {
+      if (!requireAdmin()) return alert('Only admin can add admins.');
+      const fullName = document.getElementById('adminFullName').value.trim();
+      const username = document.getElementById('adminUsername').value.trim();
+      const email = document.getElementById('adminEmail').value.trim();
+      const password = document.getElementById('adminPasswordInput').value;
+
+      if (!fullName || !username || !email || !validatePassword(password)) {
+        return alert('Fill all fields and use a password with at least 6 characters.');
+      }
+      if (state.users.some(u => u.username === username)) return alert('Username already exists.');
+
+      state.users.push({
+        id: crypto.randomUUID(),
+        fullName,
+        username,
+        email,
+        password,
+        role: 'admin',
+        status: 'active',
+        notes: 'Created from quick add admin',
+        createdAt: Date.now()
+      });
+
+      logAction('create-admin', 'Created admin ' + username);
+      saveState();
+      document.getElementById('adminFullName').value = '';
+      document.getElementById('adminUsername').value = '';
+      document.getElementById('adminEmail').value = '';
+      document.getElementById('adminPasswordInput').value = '';
+      closeModal('adminModal');
+      rerender();
+      alert('Admin created successfully.');
+    }
+
+    function exportBackup() {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'admin-panel-backup.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      logAction('export-backup', 'Exported backup file');
+      saveState();
+      rerender();
+    }
+
+    function triggerImport() {
+      if (!requireAdmin()) return alert('Only admin can import backup.');
+      document.getElementById('importInput').click();
+    }
+
+    document.getElementById('importInput').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const parsed = JSON.parse(reader.result);
+          if (!Array.isArray(parsed.users) || !Array.isArray(parsed.logs)) throw new Error('Invalid file');
+          state = parsed;
+          saveState();
+          logAction('import-backup', 'Imported backup file');
+          rerender();
+          alert('Backup imported successfully.');
+        } catch (err) {
+          alert('Invalid backup file.');
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    });
+
+    function seedSampleUsers() {
+      if (!requireAdmin()) return alert('Only admin can add sample users.');
+      const samples = [
+        ['Mike Pro', 'mikepro', 'mike@example.com', 'manager'],
+        ['Aye Chan', 'ayechan', 'aye@example.com', 'staff'],
+        ['Ko Min', 'komin', 'komin@example.com', 'staff']
+      ];
+      samples.forEach(([fullName, username, email, role]) => {
+        if (!state.users.some(u => u.username === username)) {
+          state.users.push({
+            id: crypto.randomUUID(),
+            fullName, username, email,
+            password: 'User@123',
+            role,
+            status: 'active',
+            notes: 'Sample generated user',
+            createdAt: Date.now()
+          });
+        }
+      });
+      logAction('seed-users', 'Added sample users');
+      saveState();
+      rerender();
+    }
+
+    function clearLogs() {
+      if (!requireAdmin()) return alert('Only admin can clear logs.');
+      if (!confirm('Clear all logs?')) return;
+      state.logs = [];
+      saveState();
+      rerender();
+    }
+
+    function rerender() {
+      renderStats();
+      renderUsers();
+      renderLogs();
+      updateCurrentUserChip();
+    }
+
+    function updateCurrentUserChip() {
+      const chip = document.getElementById('currentUserChip');
+      if (!currentUser) return;
+      chip.textContent = currentUser.fullName + ' • ' + currentUser.role;
+    }
+
+    function boot() {
+      const authView = document.getElementById('authView');
+      const appView = document.getElementById('appView');
+      state = loadState();
+
+      if (currentUser) {
+        authView.classList.add('hidden');
+        appView.classList.remove('hidden');
+        rerender();
+      } else {
+        appView.classList.add('hidden');
+        authView.classList.remove('hidden');
+      }
+    }
+
+    boot();
+    window.addEventListener('click', (e) => {
+      document.querySelectorAll('.modal.show').forEach(modal => {
+        if (e.target === modal) modal.classList.remove('show');
+      });
+    });
+  </script>
+</body>
+</html>
