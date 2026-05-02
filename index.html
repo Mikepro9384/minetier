@@ -9,6 +9,17 @@
 </head>
 <body>
   <div class="top-accent"></div>
+  <div class="epic-bg" aria-hidden="true">
+    <span class="bg-orb orb-a"></span>
+    <span class="bg-orb orb-b"></span>
+    <span class="bg-orb orb-c"></span>
+    <span class="meteor meteor-1"></span>
+    <span class="meteor meteor-2"></span>
+    <span class="meteor meteor-3"></span>
+    <span class="pixel-dust dust-1"></span>
+    <span class="pixel-dust dust-2"></span>
+    <span class="pixel-dust dust-3"></span>
+  </div>
 
   <section id="welcome" class="welcome">
     <div class="welcome-bg-ring r1"></div>
@@ -35,17 +46,15 @@
         <button class="nav-link" id="hallNav" type="button">👑 Hall of Fame</button>
         <button class="nav-link" id="discordNav" type="button">Discords⌄</button>
       </nav>
-      <button id="searchToggle" class="search-toggle">⌕ <span>Search player...</span><kbd>/</kbd></button>
-    </header>
-
-    <div id="searchOverlay" class="search-overlay">
-      <div class="search-pop">
-        <button class="close-search" id="closeSearch">×</button>
-        <h2>Search Player</h2>
-        <p>Type a player name from the MineTiers file.</p>
-        <div class="big-search"><span>⌕</span><input id="searchInput" placeholder="Search player..." autocomplete="off" /></div>
+      <div class="search-wrap">
+        <label id="searchToggle" class="search-toggle inline-search">
+          <span class="search-icon">⌕</span>
+          <input id="searchInput" placeholder="Search player..." autocomplete="off" />
+          <kbd>/</kbd>
+        </label>
+        <div id="searchResults" class="search-results" aria-live="polite"></div>
       </div>
-    </div>
+    </header>
 
     <section class="tabs" id="tabs"></section>
 

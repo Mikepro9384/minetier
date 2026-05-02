@@ -39,3 +39,69 @@ body::after{content:"";position:fixed;inset:-10%;z-index:-1;pointer-events:none;
 @keyframes hallAura{from{transform:translateX(-1%) scale(1)}to{transform:translateX(1%) scale(1.04)}}
 @media(max-width:900px){.hall-grid{grid-template-columns:1fr}.fame-card{grid-template-columns:110px 1fr}.fame-skin{height:145px;width:100px}.hall-head h2{font-size:34px}}
 @media(max-width:560px){.hall-of-fame{padding:20px}.fame-card{grid-template-columns:1fr;text-align:center}.fame-info{text-align:center}.fame-skin{height:150px}.hall-head{align-items:flex-start}.main-nav{gap:14px}.nav-link{font-size:15px}}
+
+
+/* Final fixes: player modal head circle, no search popup feel, epic background */
+.search-overlay{display:none!important}
+.search-toggle{opacity:.92}
+.search-toggle:hover{transform:translateY(-1px);box-shadow:0 0 24px rgba(67,239,125,.12);color:#eaf6ff}
+
+.modal-avatar-wrap{
+  overflow:hidden;
+  border:3px solid rgba(255,197,51,.95);
+  box-shadow:0 0 18px rgba(255,197,51,.48),0 0 42px rgba(67,239,125,.16),inset 0 0 18px rgba(255,255,255,.08);
+}
+.modal-avatar-wrap img{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  object-fit:cover;
+  object-position:center top;
+  background:#101923;
+  image-rendering:auto;
+}
+
+.epic-bg{position:fixed;inset:0;z-index:-3;pointer-events:none;overflow:hidden;background:radial-gradient(circle at 50% 120%,rgba(19,255,180,.14),transparent 34%),linear-gradient(120deg,#071019 0%,#0a1320 42%,#120d20 72%,#071019 100%)}
+.epic-bg::before{content:"";position:absolute;inset:-20%;background:linear-gradient(115deg,transparent 0 35%,rgba(61,255,206,.14) 43%,transparent 52% 100%),linear-gradient(245deg,transparent 0 38%,rgba(185,150,255,.15) 47%,transparent 58% 100%),radial-gradient(circle at 20% 30%,rgba(255,197,51,.12),transparent 18%),radial-gradient(circle at 82% 18%,rgba(67,239,125,.16),transparent 24%);filter:blur(18px) saturate(1.25);animation:epicAurora 11s ease-in-out infinite alternate}
+.epic-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),radial-gradient(circle,rgba(255,255,255,.38) 0 1px,transparent 1.5px);background-size:46px 46px,46px 46px,120px 120px;animation:epicGrid 16s linear infinite;mask-image:linear-gradient(to bottom,rgba(0,0,0,.9),rgba(0,0,0,.58),rgba(0,0,0,.92))}
+.bg-orb{position:absolute;border-radius:50%;filter:blur(26px);opacity:.5;mix-blend-mode:screen}.orb-a{width:260px;height:260px;background:#43ef7d;left:8%;top:18%;animation:orbTravelA 12s ease-in-out infinite alternate}.orb-b{width:330px;height:330px;background:#b996ff;right:5%;top:8%;animation:orbTravelB 14s ease-in-out infinite alternate}.orb-c{width:230px;height:230px;background:#ffc533;left:44%;bottom:4%;animation:orbTravelC 10s ease-in-out infinite alternate}.meteor{position:absolute;width:190px;height:3px;border-radius:999px;background:linear-gradient(90deg,transparent,#eaffff,rgba(67,239,125,.72),transparent);filter:drop-shadow(0 0 10px rgba(67,239,125,.9));opacity:0;transform:rotate(-22deg)}.meteor-1{top:18%;left:-25%;animation:meteorFly 5.8s linear infinite}.meteor-2{top:46%;left:-30%;animation:meteorFly 7.6s linear infinite 1.4s}.meteor-3{top:72%;left:-28%;animation:meteorFly 6.7s linear infinite 3.1s}.pixel-dust{position:absolute;width:6px;height:6px;background:#9dfcff;box-shadow:70px 28px 0 #ffc533,130px -20px 0 #b996ff,200px 44px 0 #43ef7d,280px 4px 0 rgba(255,255,255,.8),360px 62px 0 #93c5fd;border-radius:2px;opacity:.38;filter:drop-shadow(0 0 8px currentColor)}.dust-1{left:10%;top:20%;animation:dustFloat 8s ease-in-out infinite alternate}.dust-2{left:30%;top:64%;animation:dustFloat 10s ease-in-out infinite alternate-reverse}.dust-3{right:22%;top:36%;animation:dustFloat 9s ease-in-out infinite alternate}
+.app,.welcome-card,.topbar,.board,.hall-of-fame,.player-modal,.info-modal,.server-modal{position:relative;z-index:1}
+@keyframes epicAurora{0%{transform:translate3d(-2%,0,0) rotate(0deg) scale(1)}50%{transform:translate3d(2%,-3%,0) rotate(2deg) scale(1.08)}100%{transform:translate3d(1%,2%,0) rotate(-1deg) scale(1.03)}}
+@keyframes epicGrid{from{background-position:0 0,0 0,0 0}to{background-position:92px 46px,46px 92px,120px 240px}}
+@keyframes orbTravelA{from{transform:translate(0,0) scale(.9)}to{transform:translate(26vw,10vh) scale(1.16)}}
+@keyframes orbTravelB{from{transform:translate(0,0) scale(1)}to{transform:translate(-18vw,18vh) scale(.86)}}
+@keyframes orbTravelC{from{transform:translate(0,0) scale(.88)}to{transform:translate(13vw,-18vh) scale(1.12)}}
+@keyframes meteorFly{0%{opacity:0;transform:translateX(0) translateY(0) rotate(-22deg)}8%{opacity:.95}35%{opacity:.95}52%,100%{opacity:0;transform:translateX(150vw) translateY(56vh) rotate(-22deg)}}
+@keyframes dustFloat{from{transform:translateY(0) rotate(0deg);opacity:.24}to{transform:translateY(-42px) rotate(12deg);opacity:.62}}
+@media(max-width:760px){.epic-bg::after{background-size:34px 34px,34px 34px,90px 90px}.bg-orb{opacity:.38}.meteor{width:140px}}
+
+
+/* Inline searchable nav - no popup, type directly */
+.search-wrap{position:relative;z-index:20}
+.inline-search{width:250px;gap:8px;justify-content:flex-start;border:1px solid rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.02),0 0 18px rgba(67,239,125,.05);transition:.22s}
+.inline-search:focus-within{width:310px;background:#1b2a3d;border-color:rgba(67,239,125,.34);box-shadow:0 0 0 3px rgba(67,239,125,.08),0 0 28px rgba(67,239,125,.14)}
+.inline-search input{min-width:0;flex:1;height:100%;border:0;outline:0;background:transparent;color:#eef6ff;font-weight:800;font-size:14px}
+.inline-search input::placeholder{color:#7f91a9}
+.inline-search .search-icon{color:#a9bdd6;font-weight:950}
+.search-results{position:absolute;right:0;top:calc(100% + 12px);width:min(520px,calc(100vw - 24px));max-height:420px;overflow:auto;padding:10px;border:1px solid rgba(255,255,255,.1);border-radius:18px;background:rgba(11,18,26,.94);backdrop-filter:blur(18px);box-shadow:0 26px 80px rgba(0,0,0,.55),0 0 45px rgba(67,239,125,.08);display:none;animation:searchDrop .22s cubic-bezier(.2,.8,.2,1)}
+.search-results.show{display:flex;flex-direction:column;gap:8px}
+.search-player-card{width:100%;border:1px solid rgba(255,255,255,.08);border-radius:15px;background:linear-gradient(90deg,rgba(25,38,56,.95),rgba(15,24,36,.95));color:#eaf4ff;display:grid;grid-template-columns:50px 1fr auto;gap:12px;align-items:center;padding:10px;text-align:left;position:relative;overflow:hidden;animation:holderFloat .4s cubic-bezier(.2,.8,.2,1)}
+.search-player-card::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,.07),transparent);transform:translateX(-120%);transition:.35s;pointer-events:none}
+.search-player-card:hover::before{transform:translateX(120%)}
+.search-player-card:hover{transform:translateY(-2px);border-color:rgba(147,197,253,.35)}
+.search-player-card>img{width:46px;height:46px;border-radius:11px;object-fit:cover;background:#0d1520;box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.search-player-card span b{display:block;font-size:16px;text-shadow:0 0 12px rgba(255,255,255,.14)}
+.search-player-card span small{display:block;color:#8ea0b9;margin-top:3px;font-weight:800}
+.search-player-card em{display:flex;gap:4px;align-items:center;max-width:230px;overflow:hidden;font-style:normal}.search-player-card em .tier-badge{transform:scale(.82);margin:-4px -2px}
+.search-player-card.rank-1{box-shadow:0 0 18px rgba(255,197,51,.24);border-color:rgba(255,197,51,.35)}
+.search-player-card.rank-2{box-shadow:0 0 18px rgba(191,199,209,.2);border-color:rgba(191,199,209,.32)}
+.search-player-card.rank-3{box-shadow:0 0 18px rgba(198,111,46,.22);border-color:rgba(198,111,46,.34)}
+.search-empty{padding:16px;text-align:center;color:#93a7bf;font-weight:900;border:1px dashed rgba(255,255,255,.12);border-radius:14px}
+@keyframes searchDrop{from{opacity:0;transform:translateY(-10px) scale(.98)}to{opacity:1;transform:none}}
+@media(max-width:760px){.search-wrap{width:100%}.inline-search,.inline-search:focus-within{width:100%}.search-results{left:0;right:auto;width:100%}.search-player-card{grid-template-columns:46px 1fr}.search-player-card em{grid-column:1/-1;max-width:none;overflow:auto}}
+
+/* Hide live search dropdown results: search now only filters the main player list */
+.search-results,
+.search-results.show{
+  display:none !important;
+}
