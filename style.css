@@ -105,3 +105,33 @@ body::after{content:"";position:fixed;inset:-10%;z-index:-1;pointer-events:none;
 .search-results.show{
   display:none !important;
 }
+
+/* MC head modal fixed: keep avatar above the name, not covering it */
+.player-modal{
+  padding-top:170px !important;
+}
+.modal-avatar-wrap{
+  top:82px !important;
+  z-index:3;
+  width:116px !important;
+  height:116px !important;
+  overflow:hidden !important;
+}
+.modal-avatar-wrap img{
+  display:block;
+  width:100% !important;
+  height:100% !important;
+  border-radius:50% !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+}
+.player-modal h2{
+  margin:0 0 14px !important;
+  position:relative;
+  z-index:2;
+  line-height:1.1;
+}
+@media(max-width:760px){
+  .player-modal{padding-top:165px !important;}
+  .modal-avatar-wrap{top:80px !important;}
+}
