@@ -520,3 +520,16 @@ body::after{content:"";position:fixed;inset:-10%;z-index:-1;pointer-events:none;
 .card-aura{
   display:none !important;
 }
+
+
+/* Make Cracked card premium-like and remove extra texts */
+.compact-head{margin-bottom:12px}
+.compact-head h3,.compact-head p{display:none !important}
+.custom-server-grid{grid-template-columns:1fr 1fr !important}
+.cracked-group{border:1px solid rgba(147,197,253,.28) !important;background:linear-gradient(180deg,rgba(22,34,52,.96),rgba(12,20,30,.96)) !important;box-shadow:0 20px 50px rgba(0,0,0,.34),0 0 26px rgba(147,197,253,.12),inset 0 1px 0 rgba(255,255,255,.05) !important}
+.cracked-group::before{content:"";position:absolute;inset:-30% auto auto -10%;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(147,197,253,.2),transparent 68%);pointer-events:none}
+.cracked-group::after{content:"";position:absolute;inset:0;border-radius:22px;padding:1px;background:linear-gradient(125deg,rgba(147,197,253,.52),rgba(185,150,255,.28),rgba(67,239,125,.08));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:.75}
+.cracked-group .server-group-badge{background:rgba(147,197,253,.11) !important;border:1px solid rgba(147,197,253,.34) !important;color:#d8ecff !important;box-shadow:0 0 18px rgba(147,197,253,.15)}
+.cracked-buttons button{background:linear-gradient(180deg,rgba(28,43,64,.96),rgba(17,27,40,.96)) !important;border:1px solid rgba(147,197,253,.26) !important;border-radius:16px !important;padding:14px 14px !important;color:#eef7ff !important;font-size:14px !important;font-weight:950 !important;box-shadow:0 10px 24px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.05);transition:.24s ease !important}
+.cracked-buttons button:hover{transform:translateY(-2px) scale(1.01);border-color:rgba(147,197,253,.58) !important;box-shadow:0 0 22px rgba(147,197,253,.18),0 16px 30px rgba(0,0,0,.28);color:#fff !important;background:linear-gradient(180deg,rgba(32,50,74,.98),rgba(18,30,44,.98)) !important}
+@media(max-width:760px){.custom-server-grid{grid-template-columns:1fr !important}}
