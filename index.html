@@ -21,25 +21,43 @@
     <span class="pixel-dust dust-3"></span>
   </div>
 
-  <section id="welcome" class="welcome">
+  <section id="welcome" class="welcome advanced-welcome">
+    <div class="welcome-portal" aria-hidden="true">
+      <span class="portal-ring ring-a"></span>
+      <span class="portal-ring ring-b"></span>
+      <span class="portal-ring ring-c"></span>
+      <span class="portal-core"></span>
+    </div>
+    <div class="welcome-particles" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
     <div class="welcome-bg-ring r1"></div>
     <div class="welcome-bg-ring r2"></div>
-    <div class="welcome-card">
-      <img class="site-logo welcome-logo" src="assets/logo.png" alt="MineTiers logo" />
-      <div class="welcome-pill">Myanmar PvP Ranking System</div>
-      <h1>Welcome to MineTiers</h1>
-      <p></p>
-      <button id="enterBtn" class="enter-btn">
-        <span class="btnText">Open Rankings</span>
+    <div class="welcome-card advanced-card">
+      <div class="card-aura"></div>
+      <div class="welcome-topline">✦ MINECRAFT PVP LEADERBOARD ✦</div>
+      <img class="site-logo welcome-logo advanced-logo" src="assets/logo.png" alt="MineTiers logo" />
+      <div class="welcome-pill advanced-pill">Myanmar PvP Ranking System</div>
+      <h1><span>Enter the</span> MineTiers</h1>
+      <p class="welcome-desc">Rankings, tiers, combat titles, player profiles and animated PvP style leaderboard.</p>
+      <div class="welcome-stats">
+        <div><b>7+</b><span>Modes</span></div>
+        <div><b>AS</b><span>Region</span></div>
+        <div><b>Live</b><span>Ranking UI</span></div>
+      </div>
+      <button id="enterBtn" class="enter-btn advanced-enter">
+        <span class="btnText">Start Rankings</span>
         <span class="loadingDots"><i></i><i></i><i></i></span>
       </button>
-      <small>Click button → loading → animated open</small>
+      <div class="welcome-loader"><span></span></div>
+      <small>Click button → loading portal → animated open</small>
     </div>
   </section>
 
   <main id="app" class="app hidden">
     <header class="topbar">
-      <img class="site-logo brand-logo" src="assets/logo.png" alt="MineTiers logo" />
+      <button id="logoRankBtn" class="logo-rank-btn" type="button" aria-label="Open rankings"><img class="site-logo brand-logo" src="assets/logo.png" alt="MineTiers logo" /></button>
       <nav class="main-nav">
         <button class="nav-link ghost" id="homeNav" type="button">Home</button>
         <button class="nav-link active" id="rankingNav" type="button">Rankings</button>
@@ -61,7 +79,14 @@
     <section class="board">
       <div class="board-tools">
         <button id="infoBtn" class="info-btn">● Information</button>
-        <button id="serverBtn" class="server-pill"><b><br></b><span>SERVER IP<br><strong></strong></span><em>☯</em></button>
+        <button id="serverBtn" class="server-pill glowing-server" type="button" aria-label="Open server IP list">
+          <span class="server-icon-dot">⚡</span>
+          <span class="server-copy">
+            <small>SERVER IP</small>
+            <strong>Click to view</strong>
+          </span>
+          <span class="server-discord-dot">☯</span>
+        </button>
       </div>
 
       <div id="overallView" class="overall-view">
@@ -154,7 +179,32 @@
     <article class="server-modal">
       <button class="modal-close" data-close-server>×</button>
       <h2>Tier Test Servers</h2>
-      <div class="server-grid"><div><h3>Premium</h3><button>as.mcpvp.club</button><button>as.catpvp.net</button><button>as.flowpvp.gg</button><button>as.mineman.club</button></div><div><h3>Cracked</h3><button>gamertee.net</button><button>mazersmp.club</button></div></div>
+      <div class="server-grid custom-server-grid">
+        <section class="server-group premium-group">
+          <div class="server-group-head">
+            <span class="server-group-badge">Premium</span>
+            <h3>Advanced Tier Test</h3>
+            <p>Best performance, premium nodes, glowing competitive style.</p>
+          </div>
+          <div class="server-buttons premium-buttons">
+            <button>as.mcpvp.club</button>
+            <button>as.catpvp.net</button>
+            <button>as.flowpvp.gg</button>
+            <button>as.mineman.club</button>
+          </div>
+        </section>
+        <section class="server-group cracked-group">
+          <div class="server-group-head">
+            <span class="server-group-badge">Cracked</span>
+            <h3>Basic Access</h3>
+            <p>Simple layout, quick access for cracked players.</p>
+          </div>
+          <div class="server-buttons cracked-buttons">
+            <button>gamertee.net</button>
+            <button>mazersmp.club</button>
+          </div>
+        </section>
+      </div>
     </article>
   </div>
 
