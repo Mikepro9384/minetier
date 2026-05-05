@@ -12,7 +12,6 @@ const allData = {
     { name: "Mikepool", pts: 4, discordId: "1301054267188318218" },
     { name: "MashTheSigma", pts: 9, discordId: "1304646129845276692" },
     { name: "SlideTheBird", pts: 8, discordId: "1402080493700386838" },
-    { name: "BaBaGyi", pts: 7, discordId: "14751872120161583" },
     { name: "xyztheplayer", pts: 6, discordId: "1294465154917990401" },
     { name: "coffee", pts: 3, discordId: "1363419712754552947" },
     { name: "Rinleaf", pts: 0, discordId: "1205524857551462450" }
@@ -42,7 +41,6 @@ const allData = {
     { name: "Olisteph", tier: "HT3", discordId: "993532803520139296" },
     { name: "naomigrief", tier: "HT4", discordId: "1373600661945712691" },
     { name: "Mtskillissue", tier: "LT4", discordId: "1345005258950184990" },
-    { name: "babagyi", tier: "HT5", discordId: "14751872120161583" },
     { name: "Mikepool", tier: "LT5", discordId: "1301054267188318218" },
     { name: "DRFOXCraft", tier: "-", discordId: "1392351363660382261" },
     { name: "Rinleaf", tier: "-", discordId: "1205524857551462450" }
@@ -58,7 +56,6 @@ const allData = {
     { name: "MikeTheClover", tier: "HT4", discordId: "1380756143374209036" },
     { name: "vemoshake", tier: "LT4", discordId: "943480370530234388" },
     { name: "OliSteph", tier: "HT5", discordId: "993532803520139296" },
-    { name: "babagyi", tier: "LT5", discordId: "14751872120161583" },
     { name: "Mtskillissue", tier: "HT5", discordId: "1345005258950184990" },
     { name: "Rinleaf", tier: "-", discordId: "1205524857551462450" }
   ],
@@ -73,7 +70,6 @@ const allData = {
     { name: "Olisteph", tier: "HT4", discordId: "993532803520139296" },
     { name: "naomigrief", tier: "LT4", discordId: "1373600661945712691" },
     { name: "Mikepool", tier: "HT5", discordId: "1301054267188318218" },
-    { name: "babayi", tier: "LT5", discordId: "14751872120161583" },
     { name: "Mtskillissue", tier: "HT5", discordId: "1345005258950184990" },
     { name: "Rinleaf", tier: "-", discordId: "1205524857551462450" }
   ],
@@ -88,7 +84,6 @@ const allData = {
     { name: "vemoshake", tier: "LT3", discordId: "943480370530234388" },
     { name: "naomigrief", tier: "HT4", discordId: "1373600661945712691" },
     { name: "Mtskillissue", tier: "LT4", discordId: "1345005258950184990" },
-    { name: "babagyi", tier: "HT5", discordId: "14751872120161583" },
     { name: "Mikepool", tier: "LT5", discordId: "1301054267188318218" },
     { name: "Rinleaf", tier: "-", discordId: "1205524857551462450" }
   ],
