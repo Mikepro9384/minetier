@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MineTiers Rankings</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="assets/logo.png">
+</head>
+<body>
+  <div class="top-accent"></div>
+  <div class="epic-bg" aria-hidden="true">
+    <span class="bg-orb orb-a"></span>
+    <span class="bg-orb orb-b"></span>
+    <span class="bg-orb orb-c"></span>
+    <span class="meteor meteor-1"></span>
+    <span class="meteor meteor-2"></span>
+    <span class="meteor meteor-3"></span>
+    <span class="pixel-dust dust-1"></span>
+    <span class="pixel-dust dust-2"></span>
+    <span class="pixel-dust dust-3"></span>
+  </div>
+
+  <section id="welcome" class="welcome advanced-welcome">
+    <div class="welcome-portal" aria-hidden="true">
+      <span class="portal-ring ring-a"></span>
+      <span class="portal-ring ring-b"></span>
+      <span class="portal-ring ring-c"></span>
+      <span class="portal-core"></span>
+    </div>
+    <div class="welcome-particles" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="welcome-bg-ring r1"></div>
+    <div class="welcome-bg-ring r2"></div>
+    <div class="welcome-card advanced-card">
+      <div class="card-aura"></div>
+      <div class="welcome-topline">✦ MINECRAFT PVP LEADERBOARD ✦</div>
+      <img class="site-logo welcome-logo advanced-logo" src="assets/logo.png" alt="MineTiers logo" />
+      <div class="welcome-pill advanced-pill">Myanmar PvP Ranking System</div>
+      <h1><span>Enter the</span> MineTiers</h1>
+      <p class="welcome-desc">Rankings, tiers, combat titles, player profiles and animated PvP style leaderboard.</p>
+      <div class="welcome-stats">
+        <div><b>7+</b><span>Modes</span></div>
+        <div><b>AS</b><span>Region</span></div>
+        <div><b>Live</b><span>Ranking UI</span></div>
+      </div>
+      <button id="enterBtn" class="enter-btn advanced-enter">
+        <span class="btnText">Start Rankings</span>
+        <span class="loadingDots"><i></i><i></i><i></i></span>
+      </button>
+      <div class="welcome-loader"><span></span></div>
+      <small>Click button → loading portal → animated open</small>
+    </div>
+  </section>
+
+  <main id="app" class="app hidden">
+    <header class="topbar">
+      <button id="logoRankBtn" class="logo-rank-btn" type="button" aria-label="Open rankings"><img class="site-logo brand-logo" src="assets/logo.png" alt="MineTiers logo" /></button>
+      <nav class="main-nav">
+        <button class="nav-link active" data-category="main" type="button">Main Tiers</button>
+        <button class="nav-link" data-category="sub" type="button">Sub Tiers</button>
+        <button class="nav-link" data-category="exclusive" type="button">Exclusive Tiers</button>
+        <button class="nav-link" id="hallNav" type="button">👑 Hall of Fame</button>
+        <button class="nav-link" id="discordNav" type="button">Discords⌄</button>
+      </nav>
+      <div class="search-wrap">
+        <label id="searchToggle" class="search-toggle inline-search">
+          <span class="search-icon">⌕</span>
+          <input id="searchInput" placeholder="Search player..." autocomplete="off" />
+          <kbd>/</kbd>
+        </label>
+        <div id="searchResults" class="search-results" aria-live="polite"></div>
+      </div>
+    </header>
+
+    <section class="tabs" id="tabs"></section>
+
+    <section class="board">
+      <div class="board-tools">
+        <button id="infoBtn" class="info-btn">● Information</button>
+        <button id="serverBtn" class="server-pill glowing-server" type="button" aria-label="Open server IP list">
+          <span class="server-icon-dot">⚡</span>
+          <span class="server-copy">
+            <small>SERVER IP</small>
+            <strong>Click to view</strong>
+          </span>
+          <span class="server-discord-dot">☯</span>
+        </button>
+      </div>
+
+      <div id="overallView" class="overall-view">
+        <div class="table-head"><span>#</span><span>PLAYER</span><span>REGION</span><span>TIERS</span></div>
+        <div id="overallRows" class="overall-rows"></div>
+      </div>
+
+      <div id="tierView" class="tier-view hidden">
+        <div id="tierColumns" class="tier-columns"></div>
+      </div>
+    </section>
+
+    <section id="hallOfFame" class="hall-of-fame">
+      <div class="hall-head">
+        <span class="hall-crown">👑</span>
+        <div>
+          <p>MineTiers Credits</p>
+          <h2>Hall of Fame</h2>
+        </div>
+      </div>
+
+      <div class="hall-grid">
+        <article class="fame-card developer-glow">
+          <div class="fame-spark"></div>
+          <img class="fame-skin" loading="lazy" decoding="async" src="https://mc-heads.net/body/MikeTheClover/140" alt="MikeTheClover skin">
+          <div class="fame-info">
+            <span class="fame-role">Developer</span>
+            <h3>MikeTheClover</h3>
+            <p>Website system, ranking layout and MineTiers design.</p>
+          </div>
+        </article>
+
+        <article class="fame-card editor-glow">
+          <div class="fame-spark"></div>
+          <img class="fame-skin" loading="lazy" decoding="async" src="https://mc-heads.net/body/vemoshake/140" alt="vemoshake skin">
+          <div class="fame-info">
+            <span class="fame-role">Server Editor</span>
+            <h3>vemoshake</h3>
+            <p>Server editing, setup support and ranking maintenance.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div id="playerModal" class="modal-backdrop">
+    <article class="player-modal">
+      <button class="modal-close" data-close-player>×</button>
+      <div class="modal-avatar-wrap"><img id="modalAvatar" src="" alt="player avatar"></div>
+      <h2 id="modalName">Player</h2>
+      <div id="modalTitle" class="modal-title-badge">Combat Master</div>
+      <div class="modal-region">AS</div>
+      <a id="modalNameMc" class="namemc-btn" target="_blank" rel="noopener">▣ NameMC ↗</a>
+      <section class="modal-section"><h3>POSITION</h3><div id="modalPosition" class="position-card"></div></section>
+      <section class="modal-section"><h3>TIERS</h3><div id="modalTiers" class="modal-tiers"></div></section>
+    </article>
+  </div>
+
+  <div id="infoModal" class="modal-backdrop">
+    <article class="info-modal">
+      <button class="modal-close" data-close-info>×</button>
+      <div class="info-tabs">
+        <button class="info-tab active" data-tab="titles">Titles</button>
+        <button class="info-tab" data-tab="points">Points</button>
+        <button class="info-tab" data-tab="tiers">Tier Test</button>
+        <button class="info-tab" data-tab="kit">Testing Kit</button>
+      </div>
+      <div class="info-content active" id="titles">
+        <h3>How to obtain <u>Achievement Titles</u></h3>
+        <p><b class="gold">❖ Combat Grandmaster</b><span>Obtained 400+ total points.</span></p>
+        <p><b class="gold">❖ Combat Master</b><span>Obtained 250+ total points.</span></p>
+        <p><b class="pink">❖ Combat Ace</b><span>Obtained 100+ total points.</span></p>
+        <p><b class="purple">❖ Combat Specialist</b><span>Obtained 50+ total points.</span></p>
+        <p><b class="lav">❖ Combat Cadet</b><span>Obtained 20+ total points.</span></p>
+        <p><b class="lav">❖ Combat Novice</b><span>Obtained 10+ total points.</span></p>
+        <p><b class="gray">◇ Rookie</b><span>Starting rank for players with less than 10 points.</span></p>
+      </div>
+      <div class="info-content" id="points">
+        <h3>Points</h3><p><b>Overall points</b><span>Overall rankings use the points saved in your MineTiers data file.</span></p><p><b>Mode tiers</b><span>Each gamemode displays HT/LT tier badges.</span></p>
+      </div>
+      <div class="info-content" id="tiers">
+        <h3>Tier Test Servers</h3>
+        <div class="server-list"><h4>Premium</h4><button>as.mcpvp.club</button><button>as.catpvp.net</button><button>as.flowpvp.gg</button><button>as.mineman.club</button><h4>Cracked</h4><button>gamertee.net</button><button>mazersmp.club</button></div>
+      </div>
+      <div class="info-content" id="kit"><h3>Testing Kit</h3><p><b>Recommended</b><span>Prepare the correct kit for the selected gamemode before testing.</span></p><p><b>Region</b><span>All players are shown as AS region.</span></p></div>
+    </article>
+  </div>
+
+  <div id="serverModal" class="modal-backdrop">
+    <article class="server-modal">
+      <button class="modal-close" data-close-server>×</button>
+      <h2>Tier Test Servers</h2>
+      <div class="server-grid custom-server-grid">
+        <section class="server-group premium-group">
+          <div class="server-group-head compact-head">
+            <span class="server-group-badge">Premium</span>
+          </div>
+          <div class="server-buttons premium-buttons">
+            <button>as.mcpvp.club</button>
+            <button>as.catpvp.net</button>
+            <button>as.flowpvp.gg</button>
+            <button>as.mineman.club</button>
+          </div>
+        </section>
+        <section class="server-group cracked-group">
+          <div class="server-group-head compact-head">
+            <span class="server-group-badge">Cracked</span>
+          </div>
+          <div class="server-buttons cracked-buttons">
+            <button>gamertee.net</button>
+            <button>mazersmp.club</button>
+          </div>
+        </section>
+      </div>
+    </article>
+  </div>
+
+  <audio id="clickSound" src="assets/click.mp3" preload="metadata"></audio>
+  <audio id="welcomeSound" src="assets/welcome.mp3" preload="metadata"></audio>
+  <script src="script.js"></script>
+</body>
+</html>
